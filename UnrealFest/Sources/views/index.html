@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Button Example</title>
+</head>
+<body>
+    <button id="myButton">Click Me Senpai UwU <3 <3 !</button>
+    <script>
+    document.getElementById('myButton').addEventListener('click', async () => {
+        try {
+            const response = await fetch('/button-click', { method: 'POST' });
+            if (response.ok) {
+                const result = await response.text();
+                console.log(result);
+            } else {
+                console.error('Error handling button click');
+            }
+        } catch (error) {
+            console.error('Error sending AJAX request:', error);
+        }
+    });
+    </script>
+</body>
+</html>
