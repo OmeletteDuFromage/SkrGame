@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form id="loginForm">
+        <label for="login">Login:</label>
+        <input type="text" id="login" name="login" required><br><br>
+        
+        <label for="team">Select Team:</label>
+        <select id="team" name="team" required>
+            <option value="teamA">Team A</option>
+            <option value="teamB">Team B</option>
+        </select><br><br>
+        
+        <button type="submit">Validate</button>
+    </form>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting the traditional way
+
+            const login = document.getElementById('login').value;
+            const team = document.getElementById('team').value;
+
+            fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ login: login, team: team })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+                // Redirect to a new page
+                window.location.href = 'game.html';
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Validation failed.');
+            });
+        });
+    </script>
+</body>
+</html>

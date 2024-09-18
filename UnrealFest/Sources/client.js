@@ -1,7 +1,8 @@
 const WebSocket = require('ws');
 
 // Define the WebSocket server URL
-const serverUrl = 'ws://localhost:8080'; // Replace with your server URL
+// const serverUrl = 'ws://18.169.64.77:8080/'; // Replace with your server URL
+const serverUrl = 'ws://localhost:8080/'; // Replace with your server URL
 
 // Define the JSON message
 const channel = 'UpdateScore';
@@ -30,14 +31,32 @@ const messageStr = JSON.stringify({channel, message});
 // Create a WebSocket connection
 const ws = new WebSocket(serverUrl);
 
+
+
 ws.on('open', () => {
     // Send the message
-    ws.send(messageStr);
-    console.log(`Sent message: ${messageStr}`);
+    // ws.send(messageStr);
+    // console.log(`Sent message: ${messageStr}`);
 });
 
-ws.on('message', (response) => {
-    console.log(`Received response: ${response}`);
+// ws.on('message', (event) => {
+//     const data = JSON.parse(event);
+//     console.log(event)
+//     if (data.event === 'button-click') {
+//         console.log(`Button ${data.buttonId} was clicked`);
+//     }
+// });
+
+ws.on('message', (event) => {
+    let _ = JSON.parse(event);
+    let data = JSON.parse(_.data);
+    console.log(JSON.stringify(data));
+});
+
+
+
+ws.on('error', (error) => {
+    console.error('WebSocket error:', error);
 });
 
 ws.on('close', () => {
