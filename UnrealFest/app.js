@@ -50,19 +50,37 @@ app.get('image', (req, res) => {
 })
 
 app.post('/login', (req, res) => {
-    const {login, team} = req.body;
+    const { login, team } = req.body;
+
     if (!req.cookies.team || req.cookies.team !== team) {
-        res.cookie('team', team, { maxAge: 900000, httpOnly: true });
+        res.cookie('team', randomInt(2), { maxAge: 900000, httpOnly: true });
     }
     if (!req.cookies.login || req.cookies.login !== login) {
-        res.cookie('login', login, { maxAge: 900000, httpOnly: true });    
+        res.cookie('login', login, { maxAge: 900000, httpOnly: true });
     }
     if (!req.cookies.clientId || req.cookies.clientId !== login) {
-        res.cookie('clientId', generateUniqueId(), { maxAge: 900000, httpOnly: true });    
+        res.cookie('clientId', generateUniqueId(), { maxAge: 900000, httpOnly: true });
+    }
+    // Construct the JSON string
+    let evt = `{
+    "UserId": "${req.cookies.clientId}",
+    "UserName": "${req.cookies.login}",
+    "Team": "${req.cookies.team}"
+}`;
+
+    // Parse the JSON string to an object
+    let data;
+    try {
+        data = JSON.parse(evt);
+    } catch (error) {
+        console.error('Error parsing JSON:', error);
+        return;
     }
 
-    
-    
+    // Emit the WebSocket event
+    wss.emit('OnUserAdded', data, req);
+
+
     res.status(200).json({ message: 'Validation successful!' });
 });
 

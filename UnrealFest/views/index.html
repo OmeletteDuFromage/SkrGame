@@ -69,16 +69,15 @@
     <script>
         document.getElementById('loginForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent the form from submitting the traditional way
-
+            console.log("test")
             const login = document.getElementById('login').value;
-            const team = document.getElementById('team').value;
 
             fetch('/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ login: login, team: team })
+                body: JSON.stringify({ login: login})
             })
                 .then(response => {
                     if (!response.ok) {
