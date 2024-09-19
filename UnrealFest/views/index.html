@@ -3,27 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-
-<body>
-    <img src="/images/uefest_logo.svg" alt="unreal fest logo" class="top-left-image">
-    <form class="form" id="loginForm">
-        <div class="container">
-            <img src="/images/title_login.svg" alt="Centered Image">
-        </div>
-        <p style="font-size: 32px; font-family: Helvetica;color:white; margin-top: 2%;margin-bottom: 2%;">Enter your login</p>
-        <input class="rounded-textfield" type="text" id="login" name="login" required><br><br>
-        <button class="validate-button" type="submit"></button>
-    </form>
-        <style>
-        .top-right-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100px; /* Adjust the size as needed */
-            height: auto;
+    <title>Responsive Form</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-         .background-image-container {
+
+        .background-image-container {
             height: 100%;
             margin: 0;
             display: flex;
@@ -37,14 +29,40 @@
 
         .form {
             text-align: center;
+            width: 90%; /* Adjust width for mobile */
+            max-width: 400px; /* Maximum width for larger screens */
+            padding: 20px;
+            border-radius: 10px; /* Optional: Add rounded corners */
+        }
+
+        .top-left-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50px; /* Default size */
+            height: auto;
+        }
+
+        @media (min-width: 600px) {
+            .top-left-image {
+                width: 100px; /* Size for medium screens */
+            }
+        }
+
+        @media (min-width: 900px) {
+            .top-left-image {
+                width: 150px; /* Size for large screens */
+            }
         }
 
         .rounded-textfield {
             border-radius: 25px;
             border: 1px solid #ccc;
             padding: 10px 20px;
-            width: 200px;
+            width: 100%; /* Make input take full width */
+            max-width: 300px; /* Optional: Set a max-width */
             outline: none;
+            box-sizing: border-box;
         }
 
         .rounded-textfield:focus {
@@ -63,12 +81,24 @@
             border: none;
             cursor: pointer;
         }
-        </style>
+    </style>
+</head>
+
+<body>
+    <img src="/images/uefest_logo.svg" alt="unreal fest logo" class="top-left-image">
+    <form class="form" id="loginForm">
+        <div class="container">
+            <img src="/images/title_login.svg" alt="Centered Image">
+        </div>
+        <p style="font-size: 32px; font-family: Helvetica; color: white; margin-top: 2%; margin-bottom: 2%;">Enter your login</p>
+        <input class="rounded-textfield" type="text" id="login" name="login" required><br><br>
+        <button class="validate-button" type="submit"></button>
+    </form>
 
     <script>
         document.getElementById('loginForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent the form from submitting the traditional way
-            console.log("test")
+            console.log("test");
             const login = document.getElementById('login').value;
 
             fetch('/login', {
@@ -76,7 +106,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ login: login})
+                body: JSON.stringify({ login: login })
             })
                 .then(response => {
                     if (!response.ok) {
@@ -96,5 +126,4 @@
         });
     </script>
 </body>
-
 </html>
