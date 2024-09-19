@@ -12,59 +12,49 @@
         </div>
         <input class="rounded-textfield" type="text" id="login" name="login" required><br><br>
         <button class="validate-button" type="submit"></button>
-        <style>
-            .form {
-                text-align: center;
-            }
-
-            .rounded-textfield {
-                border-radius: 25px;
-                /* Adjust the value to make it more or less round */
-                border: 1px solid #ccc;
-                /* Optional: Add a border */
-                padding: 10px 20px;
-                /* Adjust padding for better appearance */
-                width: 200px;
-                /* Adjust width as needed */
-                outline: none;
-                /* Remove default outline */
-            }
-
-            .rounded-textfield:focus {
-                border-color: #66afe9;
-                /* Optional: Change border color on focus */
-                box-shadow: 0 0 5px rgba(102, 175, 233, 0.5);
-                /* Optional: Add a shadow on focus */
-            }
-
-            .validate-button {
-                background-image: url('/images/button_validate.svg');
-                background-color: transparent;
-                background-size: contain;
-                /* Adjust as needed */
-                background-repeat: no-repeat;
-                background-position: center;
-                width: 100px;
-                /* Adjust as needed */
-                height: 50px;
-                /* Adjust as needed */
-                border: none;
-                /* Remove default border */
-                cursor: pointer;
-                /* Change cursor to pointer */
-            }
-
-            .background-image-container {
-                background-image: url('/images/background.svg');
-                /* Update the path to your image */
-                height: 100%;
-                /* Center and scale the image nicely */
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
-            }
-        </style>
     </form>
+        <style>
+         .background-image-container {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('/images/background.svg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .form {
+            text-align: center;
+        }
+
+        .rounded-textfield {
+            border-radius: 25px;
+            border: 1px solid #ccc;
+            padding: 10px 20px;
+            width: 200px;
+            outline: none;
+        }
+
+        .rounded-textfield:focus {
+            border-color: #66afe9;
+            box-shadow: 0 0 5px rgba(102, 175, 233, 0.5);
+        }
+
+        .validate-button {
+            background-image: url('/images/button_validate.svg');
+            background-color: transparent;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 100px;
+            height: 50px;
+            border: none;
+            cursor: pointer;
+        }
+        </style>
 
     <script>
         document.getElementById('loginForm').addEventListener('submit', function (event) {
