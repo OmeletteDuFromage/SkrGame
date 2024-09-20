@@ -49,23 +49,24 @@ app.get('image', (req, res) => {
 })
 
 app.post('/login', (req, res) => {
-    const { login, team } = req.body;
-
+    const { login } = req.body;
+    team = 0;
     if (!req.cookies.team || req.cookies.team !== team) {
         res.cookie('team', randomInt(2), { maxAge: 900000, httpOnly: true });
     }
-    console.log(login)
-    res.cookie('login', login, { maxAge: 900000, httpOnly: true });
-    
     if (!req.cookies.clientId) {
         res.cookie('clientId', generateUniqueId(), { maxAge: 900000, httpOnly: true });
     }
+    res.cookie('login', login, { maxAge: 900000, httpOnly: true });
+    
     // Construct the JSON string
+    console.log(team)
     let evt = `{
     "UserId": "${req.cookies.clientId}",
     "UserName": "${login}",
     "Team": ${req.cookies.team}
 }`;
+console.log(evt)
     // Parse the JSON string to an object
     let data;
     try {
