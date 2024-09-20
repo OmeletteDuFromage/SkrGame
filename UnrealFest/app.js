@@ -4,13 +4,12 @@ const WebSocket = require('ws');
 const path = require('path');
 const { json } = require('body-parser');
 const cookieParser = require('cookie-parser');
+const socketIO = require('socket.io');
 
 let i = 0;
 const app = express();
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
-
-let client = [];
+const wss = socketIO(server);
 
 
 /*/////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +66,6 @@ app.post('/login', (req, res) => {
     "UserName": "${req.cookies.login}",
     "Team": "${req.cookies.team}"
 }`;
-
     // Parse the JSON string to an object
     let data;
     try {
@@ -78,7 +76,8 @@ app.post('/login', (req, res) => {
     }
 
     // Emit the WebSocket event
-    wss.emit('OnUserAdded', data, req);
+
+    wss.emit('OnUserAdded', data);
 
 
     res.status(200).json({ message: 'Validation successful!' });
@@ -97,11 +96,9 @@ app.post('/button-click', (req, res) => {
   "Zone": "${buttonId}"
 }`
     // Handle the button click as needed
-    wss.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify({ event: 'button-click', data: response }));
-        }
-    });
+    wss.emit('button-click', response);
+    
+
     res.status(200).send();
 });
 
@@ -116,37 +113,6 @@ app.post('/right-click', (req, res) => {
     // UpdateImage(i);
 });
 
-function UpdateImage(i) {
-    const filePath = path.join(__dirname, 'views/index.html');
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-            console.error('Error reading index.html:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-        // Load the HTML into jsdom
-        const dom = new JSDOM(data);
-        const document = dom.window.document;
-
-
-        const regex = /images\/(\d+)\.jpg/;
-        const url = document.getElementById('image').src;
-        const match = url.match(regex);
-        let number = 0;
-        if (match) {
-            number = match[1];
-            console.log('Captured number:', number);
-        } else {
-            console.log('No match found');
-        }
-
-
-
-        const selectedImage = 'images/' + number + '.jpg';
-        console.log(selectedImage);
-        document.getElementById('image').src = selectedImage;
-    });
-}
 //left buttonclicked
 app.post('/left-click', (req, res) => {
     // Handle the button click (e.g., perform some action)
@@ -171,21 +137,7 @@ app.post('/left-click', (req, res) => {
 wss.on('connection', (socket) => {
     // Handle incoming messages
     console.log('Client connected');
-    socket.on('message', (message) => {
-        // const rq = JSON.parse(message);
-        // if (rq.channel == 'UpdateScore') {
-        //     wss.clients.forEach((client) => {
-        //         if (client !== socket && client.readyState === WebSocket.OPEN) {
-        //             client.send(message);
-        //         }
-        //     });
-        // }
-
-        // Broadcast the message to all connected clients
-
-    });
-
-    // Handle client disconnection
+    wss.emit('OnUserAdded', "we");
     socket.on('close', () => {
         console.log('Client disconnected');
     });
