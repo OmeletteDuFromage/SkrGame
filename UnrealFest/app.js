@@ -64,7 +64,7 @@ app.post('/login', (req, res) => {
     let evt = `{
     "UserId": "${req.cookies.clientId}",
     "UserName": "${req.cookies.login}",
-    "Team": "${req.cookies.team}"
+    "Team": ${req.cookies.team}
 }`;
     // Parse the JSON string to an object
     let data;
@@ -78,8 +78,6 @@ app.post('/login', (req, res) => {
     // Emit the WebSocket event
 
     wss.emit('OnUserAdded', data);
-
-
     res.status(200).json({ message: 'Validation successful!' });
 });
 
@@ -92,7 +90,7 @@ app.post('/button-click', (req, res) => {
     let response = `{
   "UserId": "${clientId}",
   "UserName": "${login}",
-  "Team": "${teamID}",
+  "Team": ${teamID},
   "Zone": "${buttonId}"
 }`
     // Handle the button click as needed
@@ -137,10 +135,13 @@ app.post('/left-click', (req, res) => {
 wss.on('connection', (socket) => {
     // Handle incoming messages
     console.log('Client connected');
-    wss.emit('OnUserAdded', "we");
     socket.on('close', () => {
         console.log('Client disconnected');
     });
+});
+
+wss.on('StartGame', (data) =>{
+    console.log("start game" + data);
 });
 
 // Start the server
