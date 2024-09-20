@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Form</title>
+    <title>SkyRealDemo</title>
     <style>
         body {
             display: flex;
@@ -43,24 +43,35 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 50px;
+            width: 150px;
             /* Default size */
             height: auto;
         }
 
-        @media (min-width: 600px) {
-            .top-left-image {
-                width: 100px;
-                /* Size for medium screens */
+        /* For portrait mode */
+        @media screen and (orientation: portrait) {
+            body {
+                flex-direction: column;
+            }
+
+            .form {
+                width: 90%;
+                max-width: 400px;
             }
         }
 
-        @media (min-width: 900px) {
-            .top-left-image {
-                width: 150px;
-                /* Size for large screens */
+        /* For landscape mode */
+        @media screen and (orientation: landscape) {
+            body {
+                flex-direction: row;
+            }
+
+            .form {
+                width: 60%;
+                max-width: 600px;
             }
         }
+
 
         .rounded-textfield {
             border-radius: 25px;
