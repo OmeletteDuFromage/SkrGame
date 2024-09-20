@@ -1,124 +1,218 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="background-image-container" lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Centered Image with Footer Buttons</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .image-container {
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .footer {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            background-color: #f1f1f1;
-        }
-        .footer button {
-            padding: 10px 20px;
-            font-size: 16px;
-        }
-    </style>
 </head>
+
 <body>
     <div class="grid-container">
-        <button id="LeftWing">LeftWing</button>
+    <button id="LeftWing">LeftWing</button>
         <button id="Cockpit">Cockpit</button>
         <button id="RightWing">RightWing</button>
         <button id="Tail">Tail</button>
         <button id="Nose">Nose</button>
         <button id="Seat">Seat</button>
-    </div>
+        <div class="background"></div>
+        <div class="image-container">
+            <img src="/images/team_a_portrait.svg" alt="portrait" class="team-icon">
+            <img src="/images/black_bg.svg" alt="Black background" class="image-bottom">
+            <img src="/images/border.svg" alt="Border" class="image-top">
+            <img src="/images/plane_top.svg" alt="Border" usemap="#imagemap" class="image-plane">
+            <img src="/images/text_rules.png" alt="Top Left Image" class="top-left-image">
+        </div>
+        <button class="bottom-right-button">
+            <img src="/images/switch_view.svg" alt="Button Image">
+        </button>
+    </body>
+<style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
 
-    <script>
-        document.querySelectorAll('.grid-container button').forEach(button => {
-            button.addEventListener('click', async (event) => {
-                const buttonId = event.target.id;
-                try {
-                    const response = await fetch('/button-click', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ buttonId: buttonId })
-                    });
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f0f0f0; /* Example background color */
+            z-index: -1;
+        }
 
-                    if (response.ok) {
-                        const result = await response.text();
-                        console.log(result);
-                    } else {
-                        console.error('Error handling button click');
-                    }
-                } catch (error) {
-                    console.error('Error sending AJAX request:', error);
-                }
-            });
-        });
-    </script>
-<body>
-    <!-- <div class="image-container">
-        <img id="image" src="images/1.jpg" alt="Centered Image">
-    </div> -->
-    <div class="footer">
-        <button id="LeftButton">Left Button</button>
-        <script>
-            document.getElementById('LeftButton').addEventListener('click', async () => {
-                try {
-                    const response = await fetch('/left-click', { method: 'POST' });
-                    if (response.ok) {
-                        const result = await response.text();
-                        console.log(result);
-                    } else {
-                        console.error('Error handling button click');
-                    }
-                } catch (error) {
-                    console.error('Error sending AJAX request:', error);
-                }
-            });
-            </script>
-        <button id="RightButton">Right Button</button>
-        <script>
-            document.getElementById('RightButton').addEventListener('click', async () => {
-                try {
-                    const response = await fetch('/right-click', { method: 'POST' });
-                    if (response.ok) {
-                        const result = await response.text();
-                        console.log(result);
-                    } else {
-                        console.error('Error handling button click');
-                    }
-                } catch (error) {
-                    console.error('Error sending AJAX request:', error);
-                }
-            });
-            </script>
-    </div>
-</body>
+        .image-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .image-bottom {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .image-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .image-plane {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+        }
+
+        .top-left-image {
+            position: absolute;
+            top: 10%;
+            left: 8%;
+            max-width: 20%;
+            height: auto;
+            z-index: 4;
+        }
+
+        .bottom-right-button {
+            position: absolute;
+            bottom: 1%;
+            right: 5%;
+            padding: 10px 20px;
+            background-color: transparent;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .bottom-right-button img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        @media (max-width: 600px) {
+            .body{
+                width: auto;
+                height: auto;
+            }
+            .top-left-image {
+                max-width: 30%;
+            }
+
+            .bottom-right-button {
+                bottom: 10%;
+                right: 10%;
+                /* padding: 8px 16px; */
+                background-color: transparent;
+            }
+        }
+
+</style>
+
 </html>
 
 
 
-<!-- document.addEventListener('DOMContentLoaded', async () => {
-    const forbiddenWords = await fetchForbiddenWords();
+<script>
+    document.querySelectorAll('.grid-container button').forEach(button => {
+        button.addEventListener('click', async (event) => {
+            const buttonId = event.target.id;
+            try {
+                const response = await fetch('/button-click', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ buttonId: buttonId })
+                });
 
-    document.getElementById('login').addEventListener('input', function (event) {
-        const input = event.target.value.toLowerCase();
-        forbiddenWords.forEach(word => {
-            if (input.includes(word)) {
-                alert('Inappropriate word detected!');
-                event.target.value = input.replace(word, '');
+                if (response.ok) {
+                    const result = await response.text();
+                    console.log(result);
+                } else {
+                    console.error('Error handling button click');
+                }
+            } catch (error) {
+                console.error('Error sending AJAX request:', error);
             }
         });
-    }); -->
+    });
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+            // // Adjust debug zones based on image size
+            // const image = document.getElementById('image');
+            // const imageWidth = image.naturalWidth;
+            // const imageHeight = image.naturalHeight;
+            // const displayedWidth = image.clientWidth;
+            // const displayedHeight = image.clientHeight;
+
+            // const scaleX = displayedWidth / imageWidth;
+            // const scaleY = displayedHeight / imageHeight;
+
+            // document.getElementById('zone1').style.transform = `scale(${scaleX}, ${scaleY})`;
+            // document.getElementById('zone2').style.transform = `scale(${scaleX}, ${scaleY})`;
+            // document.getElementById('zone3').style.transform = `scale(${scaleX}, ${scaleY})`;
+        });
+</script>
+
+<!-- <div class="footer">
+    <button id="LeftButton">Left Button</button>
+    <script>
+        document.getElementById('LeftButton').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/left-click', { method: 'POST' });
+                if (response.ok) {
+                    const result = await response.text();
+                    console.log(result);
+                } else {
+                    console.error('Error handling button click');
+                }
+            } catch (error) {
+                console.error('Error sending AJAX request:', error);
+            }
+        });
+    </script>
+    <button id="RightButton">Right Button</button>
+    <script>
+        document.getElementById('RightButton').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/right-click', { method: 'POST' });
+                if (response.ok) {
+                    const result = await response.text();
+                    console.log(result);
+                } else {
+                    console.error('Error handling button click');
+                }
+            } catch (error) {
+                console.error('Error sending AJAX request:', error);
+            }
+        });
+    </script>
+</div> -->

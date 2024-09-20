@@ -54,16 +54,16 @@ app.post('/login', (req, res) => {
     if (!req.cookies.team || req.cookies.team !== team) {
         res.cookie('team', randomInt(2), { maxAge: 900000, httpOnly: true });
     }
-    if (!req.cookies.login || req.cookies.login !== login) {
-        res.cookie('login', login, { maxAge: 900000, httpOnly: true });
-    }
-    if (!req.cookies.clientId || req.cookies.clientId !== login) {
+    console.log(login)
+    res.cookie('login', login, { maxAge: 900000, httpOnly: true });
+    
+    if (!req.cookies.clientId) {
         res.cookie('clientId', generateUniqueId(), { maxAge: 900000, httpOnly: true });
     }
     // Construct the JSON string
     let evt = `{
     "UserId": "${req.cookies.clientId}",
-    "UserName": "${req.cookies.login}",
+    "UserName": "${login}",
     "Team": ${req.cookies.team}
 }`;
     // Parse the JSON string to an object
@@ -93,9 +93,18 @@ app.post('/button-click', (req, res) => {
   "Team": ${teamID},
   "Zone": "${buttonId}"
 }`
+
+    let data;
+    try {
+        data = JSON.parse(response);
+    } catch (error) {
+        console.error('Error parsing JSON:', error);
+        return;
+    }
+    console.log(data);
     // Handle the button click as needed
-    wss.emit('button-click', response);
-    
+    wss.emit('OnClick', data);
+
 
     res.status(200).send();
 });
@@ -140,7 +149,7 @@ wss.on('connection', (socket) => {
     });
 });
 
-wss.on('StartGame', (data) =>{
+wss.on('StartGame', (data) => {
     console.log("start game" + data);
 });
 

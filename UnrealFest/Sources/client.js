@@ -1,8 +1,8 @@
-const WebSocket = require('ws');
 
+const socketIo = require('socket.io-client');
 // Define the WebSocket server URL
 const serverUrl = 'ws://18.169.64.77:8080/'; // Replace with your server URL
-// const serverUrl = 'ws://localhost:8080/'; // Replace with your server URL
+// const serverUrl = 'http://localhost:8080/'; // Replace with your server URL
 
 // Define the JSON message
 const channel = 'UpdateScore';
@@ -26,34 +26,25 @@ const message = {
 };
 
 // Convert the message to JSON string
-const messageStr = JSON.stringify({channel, message});
+const messageStr = JSON.stringify({ channel, message });
 
 // Create a WebSocket connection
-const ws = new WebSocket(serverUrl);
-
-
-
+const ws = socketIo(serverUrl);
 ws.on('open', () => {
-    // Send the message
-    // ws.send(messageStr);
-    // console.log(`Sent message: ${messageStr}`);
+    ws.emit('StartGame', "bonjour");
 });
 
-// ws.on('message', (event) => {
-//     const data = JSON.parse(event);
-//     console.log(event)
-//     if (data.event === 'button-click') {
-//         console.log(`Button ${data.buttonId} was clicked`);
-//     }
-// });
-
-ws.on('message', (event) => {
-    let _ = JSON.parse(event);
-    let data = JSON.parse(_.data);
-    console.log(JSON.stringify(data));
+ws.on('message', function (event) {
+    console.log(event)
 });
 
+ws.on('OnUserAdded', (event) => {
+    console.log(JSON.stringify(event))
+});
 
+ws.on('button-clicked', (event) => {
+    console.log(event)
+});
 
 ws.on('error', (error) => {
     console.error('WebSocket error:', error);
@@ -61,4 +52,16 @@ ws.on('error', (error) => {
 
 ws.on('close', () => {
     console.log('WebSocket connection closed.');
+});
+
+ws.on('StartGame', () => {
+    console.log('PARTY STARTED');
+});
+
+ws.on('UpdateScore', () => {
+    console.log('PARTY STARTED');
+});
+
+ws.on('OnClick', (data) => {
+    console.log(data);
 });
