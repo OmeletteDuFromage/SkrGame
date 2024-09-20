@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html class="background-image-container" lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,29 +30,35 @@
 
         .form {
             text-align: center;
-            width: 90%; /* Adjust width for mobile */
-            max-width: 400px; /* Maximum width for larger screens */
+            width: 90%;
+            /* Adjust width for mobile */
+            max-width: 400px;
+            /* Maximum width for larger screens */
             padding: 20px;
-            border-radius: 10px; /* Optional: Add rounded corners */
+            border-radius: 10px;
+            /* Optional: Add rounded corners */
         }
 
         .top-left-image {
             position: absolute;
             top: 0;
             left: 0;
-            width: 50px; /* Default size */
+            width: 50px;
+            /* Default size */
             height: auto;
         }
 
         @media (min-width: 600px) {
             .top-left-image {
-                width: 100px; /* Size for medium screens */
+                width: 100px;
+                /* Size for medium screens */
             }
         }
 
         @media (min-width: 900px) {
             .top-left-image {
-                width: 150px; /* Size for large screens */
+                width: 150px;
+                /* Size for large screens */
             }
         }
 
@@ -59,8 +66,10 @@
             border-radius: 25px;
             border: 1px solid #ccc;
             padding: 10px 20px;
-            width: 100%; /* Make input take full width */
-            max-width: 300px; /* Optional: Set a max-width */
+            width: 100%;
+            /* Make input take full width */
+            max-width: 300px;
+            /* Optional: Set a max-width */
             outline: none;
             box-sizing: border-box;
         }
@@ -90,40 +99,73 @@
         <div class="container">
             <img src="/images/title_login.svg" alt="Centered Image">
         </div>
-        <p style="font-size: 32px; font-family: Helvetica; color: white; margin-top: 2%; margin-bottom: 2%;">Enter your login</p>
+        <p style="font-size: 32px; font-family: Helvetica; color: white; margin-top: 2%; margin-bottom: 2%;">Enter your
+            login</p>
         <input class="rounded-textfield" type="text" id="login" name="login" required><br><br>
         <button class="validate-button" type="submit"></button>
     </form>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <script>
         document.getElementById('loginForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent the form from submitting the traditional way
-            console.log("test");
             const login = document.getElementById('login').value;
 
-            fetch('/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ login: login })
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
+            fetch('https://raw.githubusercontent.com/surge-ai/profanity/main/profanity_en.csv')
+                .then(response => response.text())
                 .then(data => {
-                    console.log('Success:', data);
-                    // Redirect to a new page
-                    window.location.href = 'game.html';
+                    // Parse the CSV data
+                    const rows = data.split('\n');
+                    const headers = rows[0].split(',');
+                    const textIndex = headers.indexOf('text');
+                    if (textIndex !== -1) {
+                        const textColumn = rows.slice(1).map(row => row.split(',')[textIndex]);
+                        if (textColumn.includes(login)) {
+                            alert("Please change your username.");
+                            throw new Error('Cannot use slur word as username.');
+                        } else {
+                            // Proceed with the login request if no slur word is found
+                            fetch('/login', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ login: login })
+                            })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Network response was not ok');
+                                    }
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    window.location.href = 'game.html';
+                                })
+                                .catch((error) => {
+                                    console.error('Error:', error);
+                                    alert('Validation failed.');
+                                });
+                        }
+                    } else {
+                        console.error('Text column not found');
+                    }
                 })
-                .catch((error) => {
-                    console.error('Error:', error);
-                    alert('Validation failed.');
-                });
+                .catch(error => console.error('Error fetching the CSV file:', error));
         });
     </script>
 </body>
+
 </html>
+
+
+<!-- document.addEventListener('DOMContentLoaded', async () => {
+    const forbiddenWords = await fetchForbiddenWords();
+
+    document.getElementById('login').addEventListener('input', function (event) {
+        const input = event.target.value.toLowerCase();
+        forbiddenWords.forEach(word => {
+            if (input.includes(word)) {
+                alert('Inappropriate word detected!');
+                event.target.value = input.replace(word, '');
+            }
+        });
+    }); -->
