@@ -9,18 +9,35 @@
 
 <body>
     <div class="grid-container">
-    <button id="LeftWing">LeftWing</button>
+    <!-- <button id="LeftWing">LeftWing</button>
         <button id="Cockpit">Cockpit</button>
         <button id="RightWing">RightWing</button>
         <button id="Tail">Tail</button>
         <button id="Nose">Nose</button>
-        <button id="Seat">Seat</button>
+        <button id="Seat">Seat</button> -->
         <div class="background"></div>
         <div class="image-container">
             <img src="/images/team_a_portrait.svg" alt="portrait" class="team-icon">
             <img src="/images/black_bg.svg" alt="Black background" class="image-bottom">
             <img src="/images/border.svg" alt="Border" class="image-top">
-            <img src="/images/plane_top.svg" alt="Border" usemap="#imagemap" class="image-plane">
+            <!-- <img src="/images/plane_tkop.svg" alt="Border" usemap="#imagemap" class="image-plane"> -->
+             <div>
+            <img src="/images/Zones 1.svg" id="image-map" alt="Border" usemap="#image-map" class="image-map">
+            <map name="image-map" class="image-map-map" id="image-map-map">
+                <area shape="rect" coords="154,159,186,217" alt="Zone 1" href="#" onclick="zoneClicked('1')">
+                <area shape="rect" coords="188,106,228,270" alt="Zone 2" href="#" onclick="zoneClicked('Horizontal Tail Plane')">
+                <area shape="rect" coords="215,145,301,189" alt="Zone 3" href="#" onclick="zoneClicked('Jet Engine Left')">
+                <area shape="rect" coords="214,190,301,233" alt="oui" href="#" onclick="zoneClicked('Jet Engine Right')">
+                <area shape="rect" coords="280,167,341,37" alt="Zone 5" href="#" onclick="zoneClicked('Left Wing')">
+                <area shape="rect" coords="212,280,341,343" alt="Zone 6" href="#" onclick="zoneClicked('Right Wing')">
+                <area shape="rect" coords="301,168,341,210" alt="7" href="#" onclick="zoneClicked('7')">
+                <area shape="rect" coords="341,168,427,218" alt="8" href="#" onclick="zoneClicked('8')">
+                <area shape="rect" coords="428,159,473,218" alt="Zone 9" href="#" onclick="zoneClicked('Cabine')">
+                <area shape="rect" coords="474,159,500,218" alt="Zone 10" href="#" onclick="zoneClicked('Cockpit')">
+                <area shape="rect" coords="499,159,542,218" alt="Nose" href="#" onclick="zoneClicked('qweqe')">
+                <!-- Add more areas as needed -->
+              </map>
+            </div>
             <img src="/images/text_rules.png" alt="Top Left Image" class="top-left-image">
         </div>
         <button class="bottom-right-button">
@@ -78,7 +95,7 @@
             z-index: 2;
         }
 
-        .image-plane {
+        .image-map {
             position: absolute;
             top: 0;
             left: 0;
@@ -141,6 +158,83 @@
 
 
 <script>
+    const originalWidth = 667; // Original width of the image (iPhone SE)
+    const originalHeight = 375; // Original height of the image (iPhone SE)
+
+    const areas = [
+      { coords: [154, 159, 186, 217], alt: "Zone 1" },
+      { coords: [188, 106, 228, 270], alt: "Vertical Tail Plane" },
+      { coords: [215, 145, 301, 189], alt: "Jet Engine Left" },
+      { coords: [214, 190, 301, 233], alt: "et Engine Right" },
+      { coords: [280, 167, 341, 37], alt: "Left Wing" },
+      { coords: [212, 280, 341, 343], alt: "Right Wing" },
+      { coords: [301, 168, 341, 210], alt: "Zone 7" },
+      { coords: [341, 168, 427, 218], alt: "jean" },
+      { coords: [428, 159, 473, 218], alt: "Zone 9" },
+      { coords: [474, 159, 500, 218], alt: "Cockpit" },
+      { coords: [499, 159, 542, 218], alt: "Nose" }
+    ];
+
+    function scaleCoords(coords, scaleX, scaleY) {
+      return coords.map((coord, index) => {
+        return index % 2 === 0 ? Math.round(coord * scaleX) : Math.round(coord * scaleY);
+      });
+    }
+
+    function updateImageMap() {
+      const img = document.getElementById('image-map');
+      const map = document.getElementById('image-map-map');
+      const scaleX = img.clientWidth / originalWidth;
+      const scaleY = img.clientHeight / originalHeight;
+
+      map.innerHTML = ''; // Clear existing areas
+
+      areas.forEach(area => {
+        const scaledCoords = scaleCoords(area.coords, scaleX, scaleY).join(',');
+        const areaElement = document.createElement('area');
+        areaElement.shape = 'rect';
+        areaElement.coords = scaledCoords;
+        areaElement.alt = area.alt;
+        areaElement.href = '#';
+        areaElement.onclick = () => zoneClicked(area.alt);
+        map.appendChild(areaElement);
+      });
+    }
+
+    function zoneClicked(ZoneName) {
+        console.log(ZoneName);
+    fetch('/button-click', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ buttonId: ZoneName })
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Button click event sent successfully');
+        } else {
+            console.error('Error sending button click event');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+
+
+    }
+
+    window.addEventListener('resize', updateImageMap);
+    window.addEventListener('load', () => {
+      const img = document.getElementById('image-map');
+      if (img.complete) {
+        updateImageMap();
+      } else {
+        img.onload = updateImageMap;
+      }
+    });
+    
+
     document.querySelectorAll('.grid-container button').forEach(button => {
         button.addEventListener('click', async (event) => {
             const buttonId = event.target.id;
@@ -164,7 +258,6 @@
             }
         });
     });
-
     document.addEventListener('DOMContentLoaded', (event) => {
             // // Adjust debug zones based on image size
             // const image = document.getElementById('image');

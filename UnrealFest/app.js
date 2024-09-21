@@ -20,9 +20,7 @@ const wss = socketIO(server);
 
 
 // Serve the index.html file when the user hits the main URL
-const { JSDOM } = require('jsdom');
 const fs = require('fs');
-const { randomInt, randomUUID } = require('crypto');
 app.use(express.json());
 app.use(cookieParser());
 app.use('/images', express.static('public/images'))
@@ -50,9 +48,9 @@ app.get('image', (req, res) => {
 
 app.post('/login', (req, res) => {
     const { login } = req.body;
-    team = 0;
+    team = getRandomInt(0, 1);
     if (!req.cookies.team || req.cookies.team !== team) {
-        res.cookie('team', randomInt(2), { maxAge: 900000, httpOnly: true });
+        res.cookie('team', team, { maxAge: 900000, httpOnly: true });
     }
     if (!req.cookies.clientId) {
         res.cookie('clientId', generateUniqueId(), { maxAge: 900000, httpOnly: true });
@@ -60,17 +58,15 @@ app.post('/login', (req, res) => {
     res.cookie('login', login, { maxAge: 900000, httpOnly: true });
     
     // Construct the JSON string
-    console.log(team)
     let evt = `{
     "UserId": "${req.cookies.clientId}",
     "UserName": "${login}",
-    "Team": ${req.cookies.team}
+    "Team": ${team}
 }`;
-console.log(evt)
-    // Parse the JSON string to an object
-    let data;
-    try {
-        data = JSON.parse(evt);
+// Parse the JSON string to an object
+let data;
+try {
+    data = JSON.parse(evt);
     } catch (error) {
         console.error('Error parsing JSON:', error);
         return;
@@ -81,6 +77,11 @@ console.log(evt)
     wss.emit('OnUserAdded', data);
     res.status(200).json({ message: 'Validation successful!' });
 });
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
 
 // OnButtonClicked create json and send it to wss clients
 app.post('/button-click', (req, res) => {
@@ -94,6 +95,7 @@ app.post('/button-click', (req, res) => {
   "Team": ${teamID},
   "Zone": "${buttonId}"
 }`
+    console.log(response);
 
     let data;
     try {
