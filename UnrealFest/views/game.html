@@ -17,11 +17,11 @@
         <button id="Seat">Seat</button> -->
         <div class="background"></div>
         <div class="image-container">
-            <img src="/images/team_a_portrait.svg" alt="portrait" class="team-icon">
+            <img src="/images/team_a_portrait.svg" alt="portrait" class="top-right-image">
             <img src="/images/black_bg.svg" alt="Black background" class="image-bottom">
             <img src="/images/border.svg" alt="Border" class="image-top">
-            <!-- <img src="/images/plane_tkop.svg" alt="Border" usemap="#imagemap" class="image-plane"> -->
-             <div>
+            <div>
+            <img src="/images/plane_top.svg" alt="Border" usemap="#imagemap" class="image-plane">
             <img src="/images/Zones 1.svg" id="image-map" alt="Border" usemap="#image-map" class="image-map">
             <map name="image-map" class="image-map-map" id="image-map-map">
                 <area shape="rect" coords="154,159,186,217" alt="Zone 1" href="#" onclick="zoneClicked('1')">
@@ -43,113 +43,186 @@
         <button class="bottom-right-button">
             <img src="/images/switch_view.svg" alt="Button Image">
         </button>
+        <div class="portrait-warning">
+            Please rotate your device to landscape mode to view this content.
+        </div>
     </body>
 <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
 
-        .background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #f0f0f0; /* Example background color */
-            z-index: -1;
-        }
+.top-right-image {
+    position: absolute;
+    top: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
+    max-width: 20%; /* Adjust as needed */
+    height: auto;
+    z-index: 5; /* Ensure it's above other elements */
+}
 
-        .image-container {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            padding: 20px;
-            box-sizing: border-box;
-        }
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
 
-        .image-container img {
-            max-width: 100%;
-            height: auto;
-        }
+.image-plane {
+    z-index: 2;            
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
 
-        .image-bottom {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0f0; /* Example background color */
+    z-index: -1;
+}
 
-        .image-top {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-        }
+.image-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
 
-        .image-map {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 3;
-        }
+.image-container img {
+    max-width: 100%;
+    height: auto;
+}
 
-        .top-left-image {
-            position: absolute;
-            top: 10%;
-            left: 8%;
-            max-width: 20%;
-            height: auto;
-            z-index: 4;
-        }
+.image-bottom {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
 
-        .bottom-right-button {
-            position: absolute;
-            bottom: 1%;
-            right: 5%;
-            padding: 10px 20px;
-            background-color: transparent;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-        }
+.image-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
 
-        .bottom-right-button img {
-            max-width: 100%;
-            height: auto;
-        }
+.image-map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+}
 
-        @media (max-width: 600px) {
-            .body{
-                width: auto;
-                height: auto;
-            }
-            .top-left-image {
-                max-width: 30%;
-            }
+.top-left-image {
+    position: absolute;
+    top: 10%;
+    left: 8%;
+    max-width: 20%;
+    height: auto;
+    z-index: 4;
+}
 
-            .bottom-right-button {
-                bottom: 10%;
-                right: 10%;
-                /* padding: 8px 16px; */
-                background-color: transparent;
-            }
-        }
+.bottom-right-button {
+    position: absolute;
+    bottom: 1%;
+    right: 5%;
+    padding: 10px 20px;
+    background-color: transparent;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Landscape mode styles */
+@media (orientation: landscape) {
+    .top-right-image {
+        top: 10px; /* Adjust as needed */
+        right: 10px; /* Adjust as needed */
+        max-width: 10%; /* Adjust as needed */
+    }
+    .body {
+        width: auto;
+        height: auto;
+    }
+    .top-left-image {
+        max-width: 30%;
+    }
+    .bottom-right-button {
+        bottom: 10%;
+        right: 10%;
+        background-color: transparent;
+    }
+    .landscape-only {
+        display: block;
+    }
+
+    .portrait-warning {
+        display: none;
+    }
+}
+
+/* Portrait mode styles */
+@media (orientation: portrait) {
+    .grid-container
+    {
+        display: none;
+    }
+    .portrait-warning {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        text-align: center;
+        font-size: 1.5em;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    
+    /* .top-right-image {
+        top: 1%;
+        right: 1%;
+        max-width: 20%; 
+    }
+    .image-container {
+        flex-direction: column;
+        padding: 10px;
+    }
+    .top-left-image {
+        top: 5%;
+        left: 5%;
+        max-width: 40%;
+    }
+    .bottom-right-button {
+        bottom: 5%;
+        right: 5%;
+        padding: 8px 16px;
+    }
+    .image-plane, .image-bottom, .image-top, .image-map {
+        width: 100%;
+        height: auto;
+    } */
+}
+
 
 </style>
 
@@ -158,19 +231,25 @@
 
 
 <script>
+
+window.addEventListener("orientationchange", function() {
+    if (window.orientation === 0 || window.orientation === 180) {
+        alert("Please rotate your device to landscape mode to view this content.");
+    }
+});
     const originalWidth = 667; // Original width of the image (iPhone SE)
     const originalHeight = 375; // Original height of the image (iPhone SE)
 
     const areas = [
-      { coords: [154, 159, 186, 217], alt: "Zone 1" },
-      { coords: [188, 106, 228, 270], alt: "Vertical Tail Plane" },
+      { coords: [154, 159, 186, 217], alt: "Rocket Engine" },
+      { coords: [188, 106, 228, 270], alt: "Horizontal Tail Plane" },
       { coords: [215, 145, 301, 189], alt: "Jet Engine Left" },
-      { coords: [214, 190, 301, 233], alt: "et Engine Right" },
+      { coords: [214, 190, 301, 233], alt: "Jet Engine Right" },
       { coords: [280, 167, 341, 37], alt: "Left Wing" },
       { coords: [212, 280, 341, 343], alt: "Right Wing" },
-      { coords: [301, 168, 341, 210], alt: "Zone 7" },
-      { coords: [341, 168, 427, 218], alt: "jean" },
-      { coords: [428, 159, 473, 218], alt: "Zone 9" },
+      { coords: [301, 168, 341, 210], alt: "Fuel Tank" },
+      { coords: [341, 168, 427, 218], alt: "Methan tank" },
+      { coords: [428, 159, 473, 218], alt: "Cabine" },
       { coords: [474, 159, 500, 218], alt: "Cockpit" },
       { coords: [499, 159, 542, 218], alt: "Nose" }
     ];
@@ -202,7 +281,6 @@
     }
 
     function zoneClicked(ZoneName) {
-        console.log(ZoneName);
     fetch('/button-click', {
         method: 'POST',
         headers: {
@@ -212,7 +290,6 @@
     })
     .then(response => {
         if (response.ok) {
-            console.log('Button click event sent successfully');
         } else {
             console.error('Error sending button click event');
         }
