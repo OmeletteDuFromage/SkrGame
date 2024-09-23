@@ -6,84 +6,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Centered Image with Footer Buttons</title>
 </head>
+
 <body>
+
+    <img src="/images/rotate_screen.svg" id="fullscreenImage" class="fullscreen-image">
     <div class="grid-container">
+        <img id="team-icon" alt="portrait" class="top-right-image">
         <div id="bg" class="background"></div>
-        <div id="container" class="image-container">
-            <img id="team-icon" alt="portrait" class="top-right-image">
-            <img src="/images/black_bg.svg" alt="Black background" class="image-bottom">
-            <img src="/images/border.svg" alt="Border" class="image-top">
-            <div>
-                <img src="/images/plane_top.svg" alt="Border" usemap="#imagemap" class="image-plane">
-                <img src="/images/Zones 1.svg" id="image-map" alt="Border" usemap="#image-map" class="image-map">
-                <map name="image-map" class="image-map-map" id="image-map-map">
-                    <area shape="rect" coords="154,159,186,217" alt="Zone 1" href="#" onclick="zoneClicked('1')">
-                    <area shape="rect" coords="188,106,228,270" alt="Zone 2" href="#"
-                        onclick="zoneClicked('Horizontal Tail Plane')">
-                    <area shape="rect" coords="215,145,301,189" alt="Zone 3" href="#"
-                        onclick="zoneClicked('Jet Engine Left')">
-                    <area shape="rect" coords="214,190,301,233" alt="oui" href="#"
-                        onclick="zoneClicked('Jet Engine Right')">
-                    <area shape="rect" coords="280,167,341,37" alt="Zone 5" href="#" onclick="zoneClicked('Left Wing')">
-                    <area shape="rect" coords="212,280,341,343" alt="Zone 6" href="#"
-                        onclick="zoneClicked('Right Wing')">
-                    <area shape="rect" coords="301,168,341,210" alt="7" href="#" onclick="zoneClicked('7')">
-                    <area shape="rect" coords="341,168,427,218" alt="8" href="#" onclick="zoneClicked('8')">
-                    <area shape="rect" coords="428,159,473,218" alt="Zone 9" href="#" onclick="zoneClicked('Cabine')">
-                    <area shape="rect" coords="474,159,500,218" alt="Zone 10" href="#" onclick="zoneClicked('Cockpit')">
-                    <area shape="rect" coords="499,159,542,218" alt="Nose" href="#" onclick="zoneClicked('qweqe')">
-                    <!-- Add more areas as needed -->
-                </map>
-            </div>
-            <img src="/images/text_rules.png" alt="Top Left Image" class="top-left-image">
+        <img src="/images/black_bg.svg" alt="Black background" class="image-bottom">
+        <img src="/images/border.svg" alt="Border" class="image-top">
+        <div id="zone" class="zone-container">
+            <img id="image-plane" src="/images/plane_top.svg" alt="Border" usemap="#imagemap" class="image-plane">
+            <img src="/images/Zones1.svg" id="image-map" alt="Border" usemap="#image-map" class="image-map">
+            <map name="image-map" class="image-map-map" id="image-map-map">
+            </map>
         </div>
-        <button class="bottom-right-button">
+        <img src="/images/text_rules.png" alt="Top Left Image" class="top-left-image">
+        <button id="bottom-right-button" class="bottom-right-button">
             <img src="/images/switch_view.svg" alt="Button Image">
         </button>
-    </div class="fullscreen-image" id="fullscreenImage">
-        <img src="/images/rotate_screen.svg" id="fullscreenImage" class="fullscreen-image">
     </div>
 </body>
 <style>
-        .fullscreen-image {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-image: url('images/background.svg');
-            background-size: contain; /* Ensures the image scales to fit within the viewport */
-            background-repeat: no-repeat; /* Prevents the image from repeating */
-            background-position: center; /* Centers the image */
-            z-index: 9999; /* Ensures it is above everything else */
-            display: none; /* Initially hidden */
-        }
-    .top-right-image {
-        position: absolute;
-        top: 10px;
-        /* Adjust as needed */
-        right: 10px;
-        /* Adjust as needed */
-        max-width: 20%;
-        /* Adjust as needed */
-        height: auto;
-        z-index: 5;
-        /* Ensure it's above other elements */
-    }
-
-    body {
+    body,
+    html {
         margin: 0;
         padding: 0;
         font-family: Arial, sans-serif;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        /* Prevent scrolling */
     }
 
-    .image-plane {
+    .grid-container {
+        height: 100%;
+        width: 100%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .zone-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        /* Adjust as needed */
+        height: 100%;
+        /* Adjust as needed */
+        position: relative;
         z-index: 2;
-        position: absolute;
+    }
+
+    .fullscreen-image {
+        position: fixed;
         top: 0;
         left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-image: url('images/background.svg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        z-index: 9999;
+        display: none;
+    }
+
+    .top-right-image {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        max-width: 30%;
+        /* Adjust this value to make the image bigger */
+        height: auto;
+        z-index: 5;
+    }
+
+    .image-plane,
+    .image-map {
+        position: absolute;
+        object-fit: contain;
         width: 100%;
         height: 100%;
+        /* Ensure the image scales properly */
+        top: 0;
+        left: 0;
     }
 
     .background {
@@ -93,7 +105,6 @@
         width: 100%;
         height: 100%;
         background-color: #f0f0f0;
-        /* Example background color */
         z-index: -1;
     }
 
@@ -104,6 +115,7 @@
         align-items: center;
         justify-content: center;
         height: 100vh;
+        width: 100vw;
         padding: 20px;
         box-sizing: border-box;
     }
@@ -120,6 +132,8 @@
         width: 100%;
         height: 100%;
         z-index: 1;
+        object-fit: cover;
+        /* Ensure the image covers the entire area */
     }
 
     .image-top {
@@ -129,15 +143,8 @@
         width: 100%;
         height: 100%;
         z-index: 2;
-    }
-
-    .image-map {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 3;
+        object-fit: cover;
+        /* Ensure the image covers the entire area */
     }
 
     .top-left-image {
@@ -165,15 +172,11 @@
         height: auto;
     }
 
-    /* Landscape mode styles */
     @media (orientation: landscape) {
         .top-right-image {
             top: 10px;
-            /* Adjust as needed */
             right: 10px;
-            /* Adjust as needed */
             max-width: 10%;
-            /* Adjust as needed */
         }
 
         .body {
@@ -195,24 +198,6 @@
             display: block;
         }
     }
-
-    /* Portrait mode styles */
-    @media (orientation: portrait) {
-        /* .grid-container {
-            display: none;
-        }
-
-        .portrait-warning {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
-            font-size: 1.5em;
-            padding: 20px;
-            box-sizing: border-box;
-        } */
-    }
 </style>
 
 </html>
@@ -221,70 +206,96 @@
 
 <script>
 
-function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-                });
-            } else {
-                document.exitFullscreen();
-            }
+    function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => {
+                alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+            });
+        } else {
+            document.exitFullscreen();
         }
+    }
 
-        function checkOrientation() {
-            if (window.innerHeight > window.innerWidth) {
-                // Portrait mode
-                document.getElementById('fullscreenImage').style.display = 'block';
-                document.querySelector('.grid-container').style.display = 'none';
-            } else {
-                // Landscape mode
-                document.getElementById('fullscreenImage').style.display = 'none';
-                document.querySelector('.grid-container').style.display = 'block';
-            }
+    function checkOrientation() {
+        if (window.innerHeight > window.innerWidth) {
+            document.getElementById('fullscreenImage').style.display = 'block';
+            document.querySelector('.grid-container').style.display = 'none';
+        } else {
+            document.getElementById('fullscreenImage').style.display = 'none';
+            document.querySelector('.grid-container').style.display = 'block';
         }
-    const originalWidth = 667; // Original width of the image (iPhone SE)
-    const originalHeight = 375; // Original height of the image (iPhone SE)
+    }
 
-    const areas = [
-        { coords: [154, 159, 186, 217], alt: "Rocket Engine" },
-        { coords: [188, 106, 228, 270], alt: "Horizontal Tail Plane" },
-        { coords: [215, 145, 301, 189], alt: "Jet Engine Left" },
-        { coords: [214, 190, 301, 233], alt: "Jet Engine Right" },
-        { coords: [280, 167, 341, 37], alt: "Left Wing" },
-        { coords: [212, 280, 341, 343], alt: "Right Wing" },
-        { coords: [301, 168, 341, 210], alt: "Fuel Tank" },
-        { coords: [341, 168, 427, 218], alt: "Methan tank" },
-        { coords: [428, 159, 473, 218], alt: "Cabine" },
-        { coords: [474, 159, 500, 218], alt: "Cockpit" },
-        { coords: [499, 159, 542, 218], alt: "Nose" }
-    ];
+    function GetAreas() {
+        const image_map = document.getElementById("image-map")
+        let areas;
+        if (image_map.src.includes('Zones2')) {
+            areas = [
+                { coords: [52, 185, 237, 252], alt: "Rocket Engine" },
+                { coords: [93, 108, 237, 185], alt: "Vertical Tail Plane" },
+                { coords: [238, 186, 359, 244], alt: "Oxygen Tank" },
+                { coords: [238, 243, 443, 267], alt: "Fuel Tank" },
+                { coords: [360, 186, 443, 243], alt: "Methan Tank" },
+                { coords: [444, 186, 532, 246], alt: "Cabine" },
+                { coords: [532, 186, 577, 246], alt: "Cockpit" },
+                { coords: [577, 186, 636, 246], alt: "Nose" }
+            ];
+        }
+        else {
+            areas = [
+                { coords: [154, 159, 186, 217], alt: "Rocket Engine" },
+                { coords: [188, 106, 228, 270], alt: "Horizontal Tail Plane" },
+                { coords: [215, 145, 301, 189], alt: "Jet Engine Left" },
+                { coords: [214, 190, 301, 233], alt: "Jet Engine Right" },
+                { coords: [280, 167, 341, 37], alt: "Left Wing" },
+                { coords: [276, 213, 341, 343], alt: "Right Wing" },
+                { coords: [301, 168, 341, 210], alt: "Fuel Tank" },
+                { coords: [341, 168, 427, 218], alt: "Methan tank" },
+                { coords: [428, 159, 473, 218], alt: "Cabine" },
+                { coords: [474, 159, 500, 218], alt: "Cockpit" },
+                { coords: [499, 159, 542, 218], alt: "Nose" }
+            ];
+        }
+        return areas;
+    }
 
+    const originalWidth = 667;
+    const originalHeight = 375;
     function scaleCoords(coords, scaleX, scaleY) {
         return coords.map((coord, index) => {
             return index % 2 === 0 ? Math.round(coord * scaleX) : Math.round(coord * scaleY);
         });
     }
-
-    function updateImageMap() {
-        checkOrientation()
-        const img = document.getElementById('image-map');
-        const map = document.getElementById('image-map-map');
-        const scaleX = img.clientWidth / originalWidth;
-        const scaleY = img.clientHeight / originalHeight;
-
-        map.innerHTML = ''; // Clear existing areas
-
-        areas.forEach(area => {
-            const scaledCoords = scaleCoords(area.coords, scaleX, scaleY).join(',');
-            const areaElement = document.createElement('area');
-            areaElement.shape = 'rect';
-            areaElement.coords = scaledCoords;
-            areaElement.alt = area.alt;
-            areaElement.href = '#';
-            areaElement.onclick = () => zoneClicked(area.alt);
-            map.appendChild(areaElement);
-        });
+    
+    function getScaleFactors(element, originalWidth, originalHeight) {
+        const rect = element.getBoundingClientRect();
+        const scaleX = rect.width / originalWidth;
+        const scaleY = rect.height / originalHeight;
+        return { scaleX, scaleY };
     }
+
+    function updateMapAreas() {
+    const imageMapElement = document.getElementById('image-map');
+    const originalWidth = 667;
+    const originalHeight = 375;
+
+    const { scaleX, scaleY } = getScaleFactors(imageMapElement, originalWidth, originalHeight);
+    const mapElement = document.getElementById('image-map-map');
+
+    mapElement.innerHTML = ''; // Clear existing areas
+
+    
+    GetAreas().forEach(area => {
+        const scaledCoords = scaleCoords(area.coords, scaleX, scaleY).join(',');
+        const areaElement = document.createElement('area');
+        areaElement.shape = 'rect';
+        areaElement.coords = scaledCoords;
+        areaElement.alt = area.alt;
+        areaElement.href = '#';
+        areaElement.onclick = () => zoneClicked(area.alt);
+        mapElement.appendChild(areaElement);
+    });
+}
 
     function zoneClicked(ZoneName) {
         fetch('/button-click', {
@@ -307,28 +318,45 @@ function toggleFullscreen() {
 
     }
 
-    window.addEventListener('resize', updateImageMap);
+    window.addEventListener('resize', updateMapAreas);
     window.addEventListener('load', () => {
         // toggleFullscreen()
         checkOrientation()
         const img = document.getElementById('image-map');
         if (img.complete) {
-            updateImageMap();
+            updateMapAreas();
         } else {
-            img.onload = updateImageMap;
+            img.onload = updateMapAreas;
         }
     });
 
-    document.querySelectorAll('.grid-container button').forEach(button => {
-        button.addEventListener('click', async (event) => {
-            const buttonId = event.target.id;
+    const switch_view_button = document.getElementById('bottom-right-button')
+    switch_view_button.addEventListener('click', async (event) => {
+        const image_plane = document.getElementById("image-plane");
+        const map = document.getElementById('image-map');
+        console.log(map.src)
+        if (map.src.includes('Zones2')) {
+            image_plane.src = "/images/plane_top.svg";
+            map.src = "/images/Zones1.svg";
+        }
+        else {
+            image_plane.src = "/images/plane_side.svg";
+            map.src = "/images/Zones2.svg";
+
+        }
+        updateMapAreas();
+    });
+
+    document.querySelectorAll('.grid-container area').forEach(area => {
+        area.addEventListener('click', async (event) => {
+            const areaId = event.target.id;
             try {
                 const response = await fetch('/button-click', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ buttonId: buttonId })
+                    body: JSON.stringify({ buttonId: areaId })
                 });
 
                 if (response.ok) {
@@ -348,12 +376,10 @@ function toggleFullscreen() {
             .then(response => response.json())
             .then(data => {
                 const teamicon = document.getElementById("team-icon");
-                if (data.team == 0)
-                {
+                if (data.team == 0) {
                     teamicon.src = "/images/team_a_portrait.svg"
                 }
-                else
-                {
+                else {
                     teamicon.src = "/images/team_b_portrait.svg"
                 }
             });
