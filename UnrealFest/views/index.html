@@ -150,7 +150,7 @@
                                     return response.json();
                                 })
                                 .then(data => {
-                                    window.location.href = 'game.html';
+                                    window.location.href = 'lobby.html';
                                 })
                                 .catch((error) => {
                                     console.error('Error:', error);
@@ -165,19 +165,4 @@
         });
     </script>
 </body>
-
 </html>
-
-
-<!-- document.addEventListener('DOMContentLoaded', async () => {
-    const forbiddenWords = await fetchForbiddenWords();
-
-    document.getElementById('login').addEventListener('input', function (event) {
-        const input = event.target.value.toLowerCase();
-        forbiddenWords.forEach(word => {
-            if (input.includes(word)) {
-                alert('Inappropriate word detected!');
-                event.target.value = input.replace(word, '');
-            }
-        });
-    }); -->

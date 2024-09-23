@@ -41,6 +41,10 @@ app.get('/', (req, res) => {
     });
 });
 
+app.get('/get-cookie', (req, res) => {
+    const cookieValue = req.cookies.team;
+    res.json({ team: cookieValue });
+});
 
 app.get('image', (req, res) => {
     console.log(selectedImage);
@@ -89,6 +93,14 @@ app.post('/button-click', (req, res) => {
     const teamID = req.cookies.team;
     const clientId = req.cookies.clientId;
     const login = req.cookies.login;
+
+    if (!teamID || !clientId || !login || !buttonId)
+    {
+        res.status(400).send('Missing required cookies');
+        return;
+    }
+
+
     let response = `{
   "UserId": "${clientId}",
   "UserName": "${login}",
@@ -153,7 +165,7 @@ wss.on('connection', (socket) => {
 });
 
 wss.on('StartGame', (data) => {
-    console.log("start game" + data);
+
 });
 
 // Start the server
