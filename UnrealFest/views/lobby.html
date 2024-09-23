@@ -86,7 +86,7 @@
             }
         });
 
-    const socket = io('http://localhost:8080');
+    const socket = io();
 
     socket.on('connect', () => {
         console.log('Connected to the server');
