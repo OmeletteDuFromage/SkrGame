@@ -11,14 +11,10 @@
     <img src="/images/rotate_screen.svg" id="fullscreenImage" class="fullscreen-image">
     <div class="grid-container">
         <img id="team-icon" alt="portrait" class="top-right-image">
-        <div id="bg" class="background"></div>
         <img src="/images/black_bg.svg" alt="Black background" class="image-bottom">
-        <img src="/images/border.svg" alt="Border" class="image-top">
         <div id="zone" class="zone-container">
             <img id="image-plane" src="/images/plane_top.svg" alt="Border" usemap="#imagemap" class="image-plane">
-            <img src="/images/Zones1.svg" id="image-map" alt="Border" usemap="#image-map" class="image-map">
-            <map name="image-map" class="image-map-map" id="image-map-map">
-            </map>
+            <map name="imagemap" class="image-map-map" id="image-map-map"></map>
         </div>
         <img src="/images/text_rules.png" alt="Top Left Image" class="top-left-image">
         <button id="bottom-right-button" class="bottom-right-button">
@@ -48,6 +44,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-direction: column;
+        /* Adjust for better responsiveness */
     }
 
     .zone-container {
@@ -55,9 +53,7 @@
         justify-content: center;
         align-items: center;
         width: 100%;
-        /* Adjust as needed */
         height: 100%;
-        /* Adjust as needed */
         position: relative;
         z-index: 2;
     }
@@ -81,17 +77,15 @@
         top: 10px;
         right: 10px;
         max-width: 30%;
-        /* Adjust this value to make the image bigger */
         height: auto;
         z-index: 5;
     }
 
-    .image-plane,
-    .image-map {
+    .image-map-map
+    .image-plane {
         position: absolute;
-        object-fit: contain;
         height: 100%;
-        /* Ensure the image scales properly */
+        width: 100%;
         top: 0;
         left: 0;
     }
@@ -225,9 +219,9 @@
     }
 
     function GetAreas() {
-        const image_map = document.getElementById("image-map")
+        const image_map = document.getElementById("image-plane")
         let areas;
-        if (image_map.src.includes('Zones2')) {
+        if (image_map.src.includes('side')) {
             areas = [
                 { coords: [52, 185, 237, 252], alt: "Rocket Engine" },
                 { coords: [93, 108, 237, 185], alt: "Vertical Tail Plane" },
@@ -264,7 +258,7 @@
             return index % 2 === 0 ? Math.round(coord * scaleX) : Math.round(coord * scaleY);
         });
     }
-    
+
     function getScaleFactors(element, originalWidth, originalHeight) {
         const rect = element.getBoundingClientRect();
         const scaleX = rect.width / originalWidth;
@@ -274,7 +268,7 @@
 
     function updateMapAreas() {
     checkOrientation()
-    const imageMapElement = document.getElementById('image-map');
+    const imageMapElement = document.getElementById('image-plane');
     const originalWidth = 667;
     const originalHeight = 375;
 
@@ -319,25 +313,21 @@
 
     window.addEventListener('resize', updateMapAreas);
     window.addEventListener('load', () => {
-        const img = document.getElementById('image-map');
+        const img = document.getElementById('image-plane');
         if (img.complete) {
             updateMapAreas();
         } else {
             img.onload = updateMapAreas;
         }
     });
-
     const switch_view_button = document.getElementById('bottom-right-button')
     switch_view_button.addEventListener('click', async (event) => {
         const image_plane = document.getElementById("image-plane");
-        const map = document.getElementById('image-map');
-        if (map.src.includes('Zones2')) {
+        if (image_plane.src.includes('side')) {
             image_plane.src = "/images/plane_top.svg";
-            map.src = "/images/Zones1.svg";
         }
         else {
             image_plane.src = "/images/plane_side.svg";
-            map.src = "/images/Zones2.svg";
 
         }
         updateMapAreas();
@@ -379,5 +369,17 @@
                     teamicon.src = "/images/team_b_portrait.svg"
                 }
             });
+
+        
+        window.addEventListener('resize', updateMapAreas);
+        window.addEventListener('load', () => {
+            const img = document.getElementById('image-plane');
+            if (img.complete) {
+                updateMapAreas();
+            } else {
+                img.onload = updateMapAreas;
+            }
+        });
+
     });
 </script>
