@@ -91,7 +91,6 @@
     .image-map {
         position: absolute;
         object-fit: contain;
-        width: 100%;
         height: 100%;
         /* Ensure the image scales properly */
         top: 0;
@@ -275,6 +274,7 @@
     }
 
     function updateMapAreas() {
+    checkOrientation()
     const imageMapElement = document.getElementById('image-map');
     const originalWidth = 667;
     const originalHeight = 375;
@@ -320,8 +320,6 @@
 
     window.addEventListener('resize', updateMapAreas);
     window.addEventListener('load', () => {
-        // toggleFullscreen()
-        checkOrientation()
         const img = document.getElementById('image-map');
         if (img.complete) {
             updateMapAreas();
@@ -334,7 +332,6 @@
     switch_view_button.addEventListener('click', async (event) => {
         const image_plane = document.getElementById("image-plane");
         const map = document.getElementById('image-map');
-        console.log(map.src)
         if (map.src.includes('Zones2')) {
             image_plane.src = "/images/plane_top.svg";
             map.src = "/images/Zones1.svg";

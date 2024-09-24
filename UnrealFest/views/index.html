@@ -89,6 +89,7 @@
         .rounded-textfield:focus {
             border-color: #66afe9;
             box-shadow: 0 0 5px rgba(102, 175, 233, 0.5);
+            font-family: ArialHelvetica;
         }
 
         .validate-button {
@@ -102,6 +103,25 @@
             border: none;
             cursor: pointer;
         }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .txt-login {
+            font-size: 32px;
+            font-family: Helvetica;
+            color: white;
+            margin-top: 2%;
+            margin-bottom: 2%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* height: 100vh; */
+            font-size: 24px;
+        }
     </style>
 </head>
 
@@ -109,10 +129,9 @@
     <img src="/images/uefest_logo.svg" alt="unreal fest logo" class="top-left-image">
     <form class="form" id="loginForm">
         <div class="container">
-            <img src="/images/title_login.svg" alt="Centered Image">
+            <img src="/images/title_login.svg" alt="Centered Image" class="rdy_img">
         </div>
-        <p style="font-size: 32px; font-family: Helvetica; color: white; margin-top: 2%; margin-bottom: 2%;">Enter your
-            login</p>
+        <p class="txt-login">Enter your login</p>
         <input class="rounded-textfield" type="text" id="login" name="login" required><br><br>
         <button class="validate-button" type="submit"></button>
     </form>
@@ -165,4 +184,5 @@
         });
     </script>
 </body>
+
 </html>
