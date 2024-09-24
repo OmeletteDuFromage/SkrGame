@@ -33,6 +33,7 @@ const ws = socketIo.io(serverUrl);
 
 ws.on('connect', () => {
     ws.emit('StartGame');
+    ws.emit('UpdateScore');
 });
 
 

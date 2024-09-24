@@ -4,13 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Centered Image with Footer Buttons</title>
+    <title>Skyreal UnrealFest 2024</title>
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 
 <body>
     <img src="/images/rotate_screen.svg" id="fullscreenImage" class="fullscreen-image">
     <div class="grid-container">
-        <img id="team-icon" alt="portrait" class="top-right-image">
+        <div class="score-container">
+            <img id="team-icon" alt="portrait" class="top-right-image">
+            <svg id="percentage-svg" width="100%" height="100%" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <text id="percentage-text" x="50%" y="50%" dominant-baseline="middle">
+                    0%
+                </text>
+            </svg>
+        </div>
         <img src="/images/black_bg.svg" alt="Black background" class="image-bottom">
         <div id="zone" class="zone-container">
             <img id="image-plane" src="/images/plane_top.svg" alt="Border" usemap="#imagemap" class="image-plane">
@@ -23,6 +31,19 @@
     </div>
 </body>
 <style>
+    #percentage-svg {
+    position: absolute;
+    top: 20px; /* Adjust as needed */
+    right: 20px; /* Adjust as needed */
+    width: 150px; /* Adjust as needed */
+    height: 150px; /* Adjust as needed */
+    color: white;
+    fill: white;
+    text-anchor: middle;
+    font-size: 100;
+    font-weight: bolder;
+    z-index: 100;
+}
     body,
     html {
         margin: 0;
@@ -76,13 +97,13 @@
         position: absolute;
         top: 10px;
         right: 10px;
-        max-width: 30%;
+        max-width: 20%;
         height: auto;
         z-index: 5;
+        background-color: transparent;
     }
 
-    .image-map-map
-    .image-plane {
+    .image-map-map .image-plane {
         position: absolute;
         height: 100%;
         width: 100%;
@@ -197,6 +218,33 @@
 
 
 <script>
+    const socket = io();
+
+    socket.on('connect', () => {
+        console.log('Connected to the server');
+    });
+
+    socket.on('ScoreUpdated', () => {
+        console.log("startgame");
+        updatePercentage(getRandomInt(0, 100))
+        // window.location.href = 'game.html';
+    });
+
+    function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+
+
+    function updatePercentage(percentage) {
+        const svgText = document.getElementById('percentage-text');
+        svgText.textContent = `${percentage}%`;
+
+        // Optionally, adjust the font size based on the percentage
+        const fontSize = 10 + (percentage / 10); // Example scaling
+        svgText.setAttribute('font-size', fontSize);
+    }
+
 
     function toggleFullscreen() {
         if (!document.fullscreenElement) {
@@ -267,28 +315,28 @@
     }
 
     function updateMapAreas() {
-    checkOrientation()
-    const imageMapElement = document.getElementById('image-plane');
-    const originalWidth = 667;
-    const originalHeight = 375;
+        checkOrientation()
+        const imageMapElement = document.getElementById('image-plane');
+        const originalWidth = 667;
+        const originalHeight = 375;
 
-    const { scaleX, scaleY } = getScaleFactors(imageMapElement, originalWidth, originalHeight);
-    const mapElement = document.getElementById('image-map-map');
+        const { scaleX, scaleY } = getScaleFactors(imageMapElement, originalWidth, originalHeight);
+        const mapElement = document.getElementById('image-map-map');
 
-    mapElement.innerHTML = ''; // Clear existing areas
+        mapElement.innerHTML = ''; // Clear existing areas
 
-    
-    GetAreas().forEach(area => {
-        const scaledCoords = scaleCoords(area.coords, scaleX, scaleY).join(',');
-        const areaElement = document.createElement('area');
-        areaElement.shape = 'rect';
-        areaElement.coords = scaledCoords;
-        areaElement.alt = area.alt;
-        areaElement.href = '#';
-        areaElement.onclick = () => zoneClicked(area.alt);
-        mapElement.appendChild(areaElement);
-    });
-}
+
+        GetAreas().forEach(area => {
+            const scaledCoords = scaleCoords(area.coords, scaleX, scaleY).join(',');
+            const areaElement = document.createElement('area');
+            areaElement.shape = 'rect';
+            areaElement.coords = scaledCoords;
+            areaElement.alt = area.alt;
+            areaElement.href = '#';
+            areaElement.onclick = () => zoneClicked(area.alt);
+            mapElement.appendChild(areaElement);
+        });
+    }
 
     function zoneClicked(ZoneName) {
         fetch('/button-click', {
@@ -369,8 +417,6 @@
                     teamicon.src = "/images/team_b_portrait.svg"
                 }
             });
-
-        
         window.addEventListener('resize', updateMapAreas);
         window.addEventListener('load', () => {
             const img = document.getElementById('image-plane');
