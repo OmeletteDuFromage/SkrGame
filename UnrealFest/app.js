@@ -58,17 +58,17 @@ app.post('/login', (req, res) => {
         res.cookie('clientId', generateUniqueId(), { maxAge: 900000, httpOnly: true });
     }
     res.cookie('login', login, { maxAge: 900000, httpOnly: true });
-
+    
     // Construct the JSON string
     let evt = `{
     "UserId": "${req.cookies.clientId}",
     "UserName": "${login}",
     "Team": ${team}
 }`;
-    // Parse the JSON string to an object
-    let data;
-    try {
-        data = JSON.parse(evt);
+// Parse the JSON string to an object
+let data;
+try {
+    data = JSON.parse(evt);
     } catch (error) {
         console.error('Error parsing JSON:', error);
         return;
@@ -88,7 +88,8 @@ app.post('/button-click', (req, res) => {
     const clientId = req.cookies.clientId;
     const login = req.cookies.login;
 
-    if (!teamID || !clientId || !login || !buttonId) {
+    if (!teamID || !clientId || !login || !buttonId)
+    {
         res.status(400).send('Missing required cookies');
         return;
     }
@@ -159,10 +160,10 @@ wss.on('connect', (socket) => {
     socket.on('StartGame', () => {
         socket.broadcast.emit('GameStarted');
     });
-    socket.on('UpdateScore', () => {
+    socket.on('UpdateScore', (data) => {
         socket.broadcast.emit('ScoreUpdated');
     });
-
+    
 });
 
 // Start the server
@@ -182,6 +183,9 @@ function generateUniqueId() {
     return Math.random().toString(36).substr(2, 9);
 }
 
+
 function getRandomInt(min, max) {
-    return Math.random() * (max - min) + min;
-}
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return (Math.floor(Math.random() * (max - min + 1)) + min) > 0.5 ? 1 : 0;
+  }
