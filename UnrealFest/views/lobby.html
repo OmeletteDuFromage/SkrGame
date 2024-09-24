@@ -51,9 +51,7 @@
     });
     window.addEventListener("orientationchange", function () {
         const img = document.getElementById("overlay");
-        socket.emit('StartGame')
         if (window.orientation === 0 || window.orientation === 180) {
-            // alert("Please rotate your device to landscape mode to view this content.");
             img.src = "images/rotate_screen.svg";
         }
         else

@@ -153,7 +153,6 @@ app.post('/left-click', (req, res) => {
 wss.on('connect', (socket) => {
     // Handle incoming messages
     console.log('Client connected');
-    // wss.broadcast.emit('StartGame');
     socket.on('close', () => {
         console.log('Client disconnected');
     });
