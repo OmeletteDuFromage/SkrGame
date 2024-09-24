@@ -29,10 +29,12 @@ const message = {
 const messageStr = JSON.stringify({ channel, message });
 
 // Create a WebSocket connection
-const ws = socketIo(serverUrl);
-ws.on('open', () => {
-    ws.emit('StartGame', "bonjour");
+const ws = socketIo.io(serverUrl);
+
+ws.on('connect', () => {
+    ws.emit('StartGame');
 });
+
 
 ws.on('message', function (event) {
     console.log(event)

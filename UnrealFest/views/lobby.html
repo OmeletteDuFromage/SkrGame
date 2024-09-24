@@ -36,8 +36,23 @@
 </body>
 <script>
     team = 0;
+    const socket = io();
+
+    socket.on('connect', () => {
+        console.log('Connected to the server');
+    });
+
+    socket.on('GameStarted', () => {
+        console.log("startgame");
+        window.location.href = 'game.html';
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Disconnected from the server');
+    });
     window.addEventListener("orientationchange", function () {
         const img = document.getElementById("overlay");
+        socket.emit('StartGame')
         if (window.orientation === 0 || window.orientation === 180) {
             // alert("Please rotate your device to landscape mode to view this content.");
             img.src = "images/rotate_screen.svg";
@@ -86,18 +101,5 @@
             }
         });
 
-    const socket = io();
-
-    socket.on('connect', () => {
-        console.log('Connected to the server');
-    });
-
-    socket.on('StartGame', () => {
-        window.location.href = 'game.html';
-    });
-
-    socket.on('disconnect', () => {
-        console.log('Disconnected from the server');
-    });
 </script>
 </html>

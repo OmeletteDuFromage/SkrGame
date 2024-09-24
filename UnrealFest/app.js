@@ -5,28 +5,26 @@ const path = require('path');
 const { json } = require('body-parser');
 const cookieParser = require('cookie-parser');
 const socketIO = require('socket.io');
+const fs = require('fs');
+
+
+/*/////////////////////////////////////////////////////////////////////////////////
+
+WEBSERVER PART
+
+/////////////////////////////////////////////////////////////////////////////////*/
+
+
 
 let i = 0;
 const app = express();
 const server = http.createServer(app);
 const wss = socketIO(server);
-
-
-/*/////////////////////////////////////////////////////////////////////////////////
-
-                                WEBSERVER PART
-
-/////////////////////////////////////////////////////////////////////////////////*/
-
-
 // Serve the index.html file when the user hits the main URL
-const fs = require('fs');
 app.use(express.json());
 app.use(cookieParser());
 app.use('/images', express.static('public/images'))
 app.use(express.static(path.join(__dirname, 'views')));
-
-
 
 /// routes definitions
 app.get('/', (req, res) => {
@@ -81,10 +79,6 @@ try {
     wss.emit('OnUserAdded', data);
     res.status(200).json({ message: 'Validation successful!' });
 });
-
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
 
 
 // OnButtonClicked create json and send it to wss clients
@@ -156,16 +150,20 @@ app.post('/left-click', (req, res) => {
 /////////////////////////////////////////////////////////////////////////////////*/
 
 // WebSocket server
-wss.on('connection', (socket) => {
+wss.on('connect', (socket) => {
     // Handle incoming messages
     console.log('Client connected');
+    // wss.broadcast.emit('StartGame');
     socket.on('close', () => {
         console.log('Client disconnected');
     });
-});
-
-wss.on('StartGame', (data) => {
-
+    socket.on('StartGame', () => {
+        socket.broadcast.emit('GameStarted');
+    });
+    socket.on('UpdateScore', (data) => {
+        console.log("UpdateScore");
+    });
+    
 });
 
 // Start the server
@@ -184,3 +182,8 @@ server.listen(port, () => {
 function generateUniqueId() {
     return Math.random().toString(36).substr(2, 9);
 }
+
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
