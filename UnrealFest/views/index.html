@@ -150,10 +150,15 @@
                     const headers = rows[0].split(',');
                     const textIndex = headers.indexOf('text');
                     if (textIndex !== -1) {
-                        const textColumn = rows.slice(1).map(row => row.split(',')[textIndex]);
+                        textColumn = rows.slice(1).map(row => row.split(',')[textIndex]);
+                        textColumn.push("Skyreal");
+                        textColumn.push("SkyReal");
+                        textColumn.push("Skr");
+                        textColumn.push("Skydea");
+                        textColumn.push("Skr-technologies");
                         if (textColumn.includes(login)) {
                             alert("Please change your username.");
-                            throw new Error('Cannot use slur word as username.');
+                            throw new Error('Cannot use banned word as username.');
                         } else {
                             // Proceed with the login request if no slur word is found
                             fetch('/login', {
