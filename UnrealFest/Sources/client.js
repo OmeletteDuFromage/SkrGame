@@ -1,8 +1,8 @@
 
 const socketIo = require('socket.io-client');
 // Define the WebSocket server URL
-const serverUrl = 'ws://18.169.64.77:8080/'; // Replace with your server URL
-// const serverUrl = 'http://localhost:8080/'; // Replace with your server URL
+// const serverUrl = 'ws://18.169.64.77:8080/'; // Replace with your server URL
+const serverUrl = 'http://localhost:8080/'; // Replace with your server URL
 
 // Define the JSON message
 const channel = 'UpdateScore';
@@ -33,7 +33,7 @@ const ws = socketIo.io(serverUrl);
 
 ws.on('connect', () => {
     ws.emit('StartGame');
-    ws.emit('UpdateScore');
+    ws.emit('UpdateScore', messageStr);
 });
 
 
@@ -68,3 +68,15 @@ ws.on('UpdateScore', () => {
 ws.on('OnClick', (data) => {
     console.log(data);
 });
+
+function executeEveryTwoSeconds() {
+    ws.emit('UpdateScore', messageStr);
+}
+
+// Create the interval
+let intervalId = setInterval(executeEveryTwoSeconds, 2000);
+
+setTimeout(() => {
+    clearInterval(intervalId);
+    console.log("Interval cleared after 5 executions.");
+}, 10000);

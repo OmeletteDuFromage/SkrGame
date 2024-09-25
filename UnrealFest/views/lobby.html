@@ -11,31 +11,52 @@
             margin: 0;
             padding: 0;
             background-image: url('images/background.svg');
-            /* URL of your background image */
             background-size: cover;
             background-position: center;
             height: 100vh;
-            display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             overflow: hidden;
         }
 
+        .overlay-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: auto;
+            width: auto;
+            margin-top: 5%;
+            /* Full viewport height */
+        }
+
         .overlay-image {
-            max-width: 100%;
-            max-height: 100%;
+            max-width: 50%;
+            max-height: 50%;
             width: auto;
             height: auto;
         }
 
+        .right-text {
+            margin-right: 20px;
+            font-weight: bold;
+            color: #fff;
+            font-family: Arial, Helvetica, sans-serif;
+        }
     </style>
 </head>
 
 <body>
-    <img id="overlay" alt="Overlay Image" class="overlay-image"> <!-- URL of your overlay image -->
+    <div class="overlay-container">
+        <img id="overlay" alt="Overlay Image" class="overlay-image">
+        <div id="text-container" class="right-text">
+            <h1 id="welcome-text"></h1>
+            <h1>Please wait ....</h1>
+        </div>
+    </div>
 </body>
 <script>
-    team = 0;
+    let cookies;
+    let team = 0;
     const socket = io();
 
     socket.on('connect', () => {
@@ -51,11 +72,14 @@
     });
     window.addEventListener("orientationchange", function () {
         const img = document.getElementById("overlay");
+        const text = document.getElementById("text-container");
         if (window.orientation === 0 || window.orientation === 180) {
             img.src = "images/rotate_screen.svg";
+            text.style.display = "none";
         }
-        else
-        {
+        else {
+            
+            text.style.display = "";
             if (team == 0) {
                 img.src = "/images/Frame 33.svg"
             }
@@ -65,14 +89,18 @@
         }
     });
 
+    document.addEventListener('DOMContentLoaded', (event) => {
+
+    });
+
     window.addEventListener('load', () => {
         const img = document.getElementById("overlay");
+
+        // text.textContent = `Welcome, ${cookies.login}`;
         if (window.orientation === 0 || window.orientation === 180) {
-            // alert("Please rotate your device to landscape mode to view this content.");
             img.src = "images/rotate_screen.svg";
         }
-        else
-        {
+        else {
             if (team == 0) {
                 img.src = "/images/Frame 33.svg"
             }
@@ -85,9 +113,12 @@
     fetch('/get-cookie')
         .then(response => response.json())
         .then(data => {
+            
+        const text = document.getElementById("welcome-text");
+            cookies = data;
             const teamicon = document.getElementById("overlay");
-            if (data.team)
-            {
+            text.textContent = `Welcome, ${cookies.login}`;
+            if (data.team) {
                 team = data.team;
             }
             if (data.team == 0) {
@@ -99,4 +130,5 @@
         });
 
 </script>
+
 </html>

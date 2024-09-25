@@ -13,7 +13,8 @@
     <div class="grid-container">
         <div class="score-container">
             <img id="team-icon" alt="portrait" class="top-right-image">
-            <svg id="percentage-svg" width="100%" height="100%" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <svg id="percentage-svg" width="100%" height="100%" viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg">
                 <text id="percentage-text" x="50%" y="50%" dominant-baseline="middle">
                     0%
                 </text>
@@ -32,18 +33,23 @@
 </body>
 <style>
     #percentage-svg {
-    position: absolute;
-    top: 20px; /* Adjust as needed */
-    right: 20px; /* Adjust as needed */
-    width: 150px; /* Adjust as needed */
-    height: 150px; /* Adjust as needed */
-    color: white;
-    fill: white;
-    text-anchor: middle;
-    font-size: 100;
-    font-weight: bolder;
-    z-index: 100;
-}
+        position: absolute;
+        top: 20px;
+        /* Adjust as needed */
+        right: 20px;
+        /* Adjust as needed */
+        width: 150px;
+        /* Adjust as needed */
+        height: 150px;
+        /* Adjust as needed */
+        color: white;
+        fill: white;
+        text-anchor: middle;
+        font-size: 100;
+        font-weight: bolder;
+        z-index: 100;
+    }
+
     body,
     html {
         margin: 0;
@@ -219,22 +225,28 @@
 
 <script>
     const socket = io();
-
+    let cookies;
     socket.on('connect', () => {
         console.log('Connected to the server');
     });
 
-    socket.on('ScoreUpdated', () => {
-        console.log("startgame");
-        updatePercentage(getRandomInt(0, 100))
-        // window.location.href = 'game.html';
+    socket.on('ScoreUpdated', (data) => {
+        const { channel, message } = JSON.parse(data);
+        const score = ComputeScore(message);
+        updatePercentage(score)
     });
 
     function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 
-
+    function ComputeScore(message) {
+        let score = 0;
+        message.Zones.forEach(zone => {
+            score += zone.TeamScores[cookies.team].Score
+        });
+        return Math.round(score / message.Zones.length);
+    }
 
     function updatePercentage(percentage) {
         const svgText = document.getElementById('percentage-text');
@@ -409,6 +421,7 @@
         fetch('/get-cookie')
             .then(response => response.json())
             .then(data => {
+                cookies = data;
                 const teamicon = document.getElementById("team-icon");
                 if (data.team == 0) {
                     teamicon.src = "/images/team_a_portrait.svg"
@@ -428,4 +441,5 @@
         });
 
     });
+
 </script>

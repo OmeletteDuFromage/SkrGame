@@ -20,7 +20,6 @@ let i = 0;
 const app = express();
 const server = http.createServer(app);
 const wss = socketIO(server);
-// Serve the index.html file when the user hits the main URL
 app.use(express.json());
 app.use(cookieParser());
 app.use('/images', express.static('public/images'))
@@ -41,7 +40,7 @@ app.get('/', (req, res) => {
 
 app.get('/get-cookie', (req, res) => {
     const cookieValue = req.cookies.team;
-    res.json({ team: cookieValue });
+    res.json({ team: cookieValue, clientId: req.cookies.clientId, login: req.cookies.login });
 });
 
 app.get('image', (req, res) => {
@@ -59,13 +58,11 @@ app.post('/login', (req, res) => {
     }
     res.cookie('login', login, { maxAge: 900000, httpOnly: true });
     
-    // Construct the JSON string
     let evt = `{
     "UserId": "${req.cookies.clientId}",
     "UserName": "${login}",
     "Team": ${team}
 }`;
-// Parse the JSON string to an object
 let data;
 try {
     data = JSON.parse(evt);
@@ -74,7 +71,6 @@ try {
         return;
     }
 
-    // Emit the WebSocket event
 
     wss.emit('OnUserAdded', data);
     res.status(200).json({ message: 'Validation successful!' });
@@ -111,36 +107,10 @@ app.post('/button-click', (req, res) => {
         return;
     }
     console.log(data);
-    // Handle the button click as needed
     wss.emit('OnClick', data);
 
 
     res.status(200).send();
-});
-
-//right button clicked
-app.post('/right-click', (req, res) => {
-    if (i >= 4) {
-        i = 0;
-    }
-    else {
-        i++;
-    }
-    // UpdateImage(i);
-});
-
-//left buttonclicked
-app.post('/left-click', (req, res) => {
-    // Handle the button click (e.g., perform some action)
-    // console.log('left Button was clicked on the server!');
-    res.status(200).send('Button click received.');
-    if (i <= 0) {
-        i = 4;
-    }
-    else {
-        i++;
-    }
-    // UpdateImage(i);
 });
 
 /*/////////////////////////////////////////////////////////////////////////////////
@@ -160,7 +130,7 @@ wss.on('connect', (socket) => {
         socket.broadcast.emit('GameStarted');
     });
     socket.on('UpdateScore', (data) => {
-        socket.broadcast.emit('ScoreUpdated');
+        socket.broadcast.emit('ScoreUpdated', data);
     });
     
 });
