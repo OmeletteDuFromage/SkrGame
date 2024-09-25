@@ -10,7 +10,12 @@
 
 <body>
     <img src="/images/rotate_screen.svg" id="fullscreenImage" class="fullscreen-image">
-    <div class="grid-container">
+    
+    <div id="end-page" class="end-page">
+        <img id="end-image">
+    </div>
+
+    <div id="main-container" class="grid-container">
         <div class="score-container">
             <img id="team-icon" alt="portrait" class="top-right-image">
             <svg id="percentage-svg" width="100%" height="100%" viewBox="0 0 100 100"
@@ -234,7 +239,7 @@
         message = JSON.parse(data);
         let score = 0;
         message.Zones.forEach(zone => {
-            if (zone.WinningTeam == cookies.team)
+            if (zone.WinningTeam === cookies.team)
             {
                 score++;   
             }
@@ -242,6 +247,46 @@
         const score_final = Math.round((score * 100) / message.Zones.length);
         console.log("final : " + score_final)
         updatePercentage(score_final)
+    });
+
+    socket.on('OnGameTerminated', (data) => {
+        // message = JSON.stringify(message);
+        elem = document.getElementById("main-container");
+        page = document.getElementById("end-page");
+        img = document.getElementById("end-image");
+
+        const jsonString = '[{"UserId":"1F092FBF48F4A023F11718B623A33BA6","ClickCount":1},{"UserId":"B53FA9564481EC677E79698CC8040D3F","ClickCount":0},{"UserId":"F38534F04A18388728F522A255C07323","ClickCount":0},{"UserId":"B2AC2EF34E0F40798D1C1B97718FE024","ClickCount":0},{"UserId":"343DA5DA43B507B38062198E3C7AF88C","ClickCount":0},{"UserId":"B01AB1E14C859EC197A642A5F042C8D3","ClickCount":1},{"UserId":"70D4457342B92F653F01F0AF2D3C16F9","ClickCount":2},{"UserId":"612626EB4C3448206846169124E735D5","ClickCount":3},{"UserId":"2283DF05491E382B6D8DD5BE8AB0C27","ClickCount":1},{"UserId":"A8A6A3D24300FE4CA12CCBB5CCF6514D","ClickCount":0},{"UserId":"F3DA924E40FE6DB42164A7B12D996A16","ClickCount":1},{"UserId":"D58F940F487062D47266769AB011B8D2","ClickCount":2},{"UserId":"E15D8CFC4A48BB8346DFFC9D47A6C8EE","ClickCount":0},{"UserId":"BF1B6968468212FA4C7B0B80C1B7A012","ClickCount":0},{"UserId":"3B50341E43A7BAF926702FBD615658DE","ClickCount":0},{"UserId":"1EB5CFBF4388F877B2F9C3B39FE835F5","ClickCount":2},{"UserId":"16437BF441EBDBF630AEDEBD9AB1CA9D","ClickCount":2},{"UserId":"FB254EE64AC3A831EA57CEA3465C9A59","ClickCount":3},{"UserId":"C3AD0A484B3AB8C4D42BA0AB5AC49619","ClickCount":2},{"UserId":"7D5E2FCC432B5E531F9776B3E03BB330","ClickCount":1},{"UserId":"BCAF094A4CF7095CE767908B72A99B9C","ClickCount":0},{"UserId":"7065EED3416A6C58D2EF9FB78A5DC92D","ClickCount":3},{"UserId":"C4B9CE7B4A37816C9EC4B39AF86A6673","ClickCount":0}]';
+        const message = JSON.parse(jsonString);
+        res = message.find(t => t.UserId == cookies.UserId)
+        elem.style.display = "none"
+        
+        page.style.position = "fixed";
+        page.style.display = "flex";
+        page.style.height = "100%";
+        page.style.width = "100%";
+        page.style.justifyContent = "center";
+        page.style.alignItems = "center";
+        
+        page.style.top = 0;
+        page.style.left = 0;
+        page.style.height = "100%";
+        page.style.width = "100%";
+        
+        // if (cookies.team == message.WinningTeam)
+        // {
+            //     img.src = "/images/win.svg"
+            // page.style.backgroundImage = "url('/images/background.svg')";
+        // }
+        // else
+        // {
+        //     img.src = "/images/loose.svg"
+        // }
+
+        img.src = "/images/win.svg"
+        const container = document.createElement('div');
+
+        img.parentNode.insertBefore(container, img);
+        container.appendChild(img);
     });
 
     function getRandomInt(min, max) {

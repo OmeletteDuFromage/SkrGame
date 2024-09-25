@@ -33,7 +33,7 @@ const ws = socketIo.io(serverUrl);
 
 ws.on('connect', () => {
     ws.emit('StartGame');
-    ws.emit('UpdateScore', messageStr);
+    ws.emit('GameTerminated', {});
 });
 
 
@@ -61,22 +61,10 @@ ws.on('StartGame', () => {
     console.log('PARTY STARTED');
 });
 
-ws.on('UpdateScore', () => {
-    console.log('PARTY STARTED');
+ws.on('UpdateScore', (data) => {
+    console.log(data);
 });
 
 ws.on('OnClick', (data) => {
     console.log(data);
 });
-
-function executeEveryTwoSeconds() {
-    ws.emit('UpdateScore', messageStr);
-}
-
-// Create the interval
-let intervalId = setInterval(executeEveryTwoSeconds, 2000);
-
-setTimeout(() => {
-    clearInterval(intervalId);
-    console.log("Interval cleared after 5 executions.");
-}, 10000);
