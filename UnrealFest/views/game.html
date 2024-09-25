@@ -231,21 +231,21 @@
     });
 
     socket.on('ScoreUpdated', (data) => {
-        const { channel, message } = JSON.parse(data);
-        const score = ComputeScore(message);
-        updatePercentage(score)
+        message = JSON.parse(data);
+        let score = 0;
+        message.Zones.forEach(zone => {
+            if (zone.WinningTeam == cookies.team)
+            {
+                score++;   
+            }
+        });
+        const score_final = Math.round((score * 100) / message.Zones.length);
+        console.log("final : " + score_final)
+        updatePercentage(score_final)
     });
 
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function ComputeScore(message) {
-        let score = 0;
-        message.Zones.forEach(zone => {
-            score += zone.TeamScores[cookies.team].Score
-        });
-        return Math.round(score / message.Zones.length);
     }
 
     function updatePercentage(percentage) {

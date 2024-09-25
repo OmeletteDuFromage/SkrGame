@@ -130,7 +130,7 @@ wss.on('connect', (socket) => {
         socket.broadcast.emit('GameStarted');
     });
     socket.on('UpdateScore', (data) => {
-        socket.broadcast.emit('ScoreUpdated', data);
+        socket.broadcast.emit('ScoreUpdated', JSON.stringify(data));
     });
     
 });
