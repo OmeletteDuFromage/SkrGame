@@ -275,6 +275,9 @@
         //     return;
         // }
         res = data.UsersScore.find(t => t.UserId == cookies.UserId)
+        console.log(res)
+
+        console.log(cookies.UserId)
         elem.style.display = "none"
         
         page.style.position = "fixed";
