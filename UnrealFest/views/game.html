@@ -501,6 +501,11 @@
                 else {
                     main.style.backgroundColor = "#FFBF3A";
                 }
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen();
+                } else {
+                    document.exitFullscreen();
+                }
             });
         window.addEventListener('resize', updateMapAreas);
         window.addEventListener('load', () => {
