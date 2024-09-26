@@ -6,6 +6,7 @@
     <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Skyreal UnrealFest 2024</title>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="https://js.cx/libs/animate.js"></script>
 </head>
 
 <body>
@@ -27,6 +28,7 @@
             </svg>
         </div>
         <div id="zone" class="zone-container">
+            <div id="spawnedElement" class="spawned"></div>
             <img id="image-plane" src="/images/plane_top.svg" alt="Border" usemap="#imagemap" class="image-plane">
             <map name="imagemap" class="image-map-map" id="image-map-map"></map>
         </div>
@@ -37,6 +39,15 @@
     </div>
 </body>
 <style>
+        .spawned {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(128, 128, 128, 0.24);
+            border-radius: 50%;
+            display: none;
+        }
+
     #percentage-svg {
         position: absolute;
         top: 20px;
@@ -223,6 +234,7 @@
             display: block;
         }
     }
+
 </style>
 
 </html>
@@ -380,7 +392,6 @@
 
 
     function zoneClicked(ZoneName) {
-        console.log(ZoneName)
         fetch('/button-click', {
             method: 'POST',
             headers: {
@@ -470,11 +481,23 @@
 
         // Allow click interactions
         document.addEventListener('touchstart', function (e) {
+
             if (e.target.tagName == 'AREA') {
+                const element = document.getElementById('spawnedElement');
+                element.style.left = e.touches[0].clientX - 20 + 'px';
+                element.style.top = e.touches[0].clientY - 20+ 'px';
+                element.style.display = 'block';
+
+                setTimeout(() => {
+                    element.style.display = 'none';
+                }, 100);
+
+
+
+
                 zoneClicked(e.srcElement.alt);
             }
             if (e.srcElement.alt == "switch_view") {
-                console.log(e.srcElement.alt)
                 const image_plane = document.getElementById("image-plane");
                 if (image_plane.src.includes('side')) {
                     image_plane.src = "/images/plane_top.svg";
@@ -487,6 +510,7 @@
             }
             e.preventDefault();
         }, { passive: false });
+    });
         window.addEventListener('resize', updateMapAreas);
         window.addEventListener('load', () => {
             const img = document.getElementById('image-plane');
@@ -496,7 +520,5 @@
                 img.onload = updateMapAreas;
             }
         });
-
-    });
-
+    
 </script>
