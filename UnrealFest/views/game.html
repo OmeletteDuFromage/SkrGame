@@ -41,8 +41,8 @@
 <style>
         .spawned {
             position: absolute;
-            width: 40px;
-            height: 40px;
+            width: 80px;
+            height: 80px;
             background-color: rgba(128, 128, 128, 0.24);
             border-radius: 50%;
             display: none;
@@ -484,8 +484,8 @@
 
             if (e.target.tagName == 'AREA') {
                 const element = document.getElementById('spawnedElement');
-                element.style.left = e.touches[0].clientX - 20 + 'px';
-                element.style.top = e.touches[0].clientY - 20+ 'px';
+                element.style.left = e.touches[0].clientX - 40 + 'px';
+                element.style.top = e.touches[0].clientY - 40+ 'px';
                 element.style.display = 'block';
 
                 setTimeout(() => {
