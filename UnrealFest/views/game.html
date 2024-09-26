@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="background-image-container" lang="en">
+<html id="mainmain" class="background-image-container" lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -10,7 +10,7 @@
 
 <body>
     <img src="/images/rotate_screen.svg" id="fullscreenImage" class="fullscreen-image">
-    
+
     <div id="end-page" class="end-page">
         <img id="end-image">
         <div id="text-end"></div>
@@ -26,12 +26,11 @@
                 </text>
             </svg>
         </div>
-        <img src="/images/black_bg.svg" alt="Black background" class="image-bottom">
         <div id="zone" class="zone-container">
             <img id="image-plane" src="/images/plane_top.svg" alt="Border" usemap="#imagemap" class="image-plane">
             <map name="imagemap" class="image-map-map" id="image-map-map"></map>
         </div>
-        <img src="/images/text_rules.png" alt="Top Left Image" class="top-left-image">
+        <img src="/images/text_rules.svg" alt="Top Left Image" class="top-left-image">
         <button id="bottom-right-button" class="bottom-right-button">
             <img src="/images/switch_view.svg" alt="Button Image">
         </button>
@@ -58,6 +57,7 @@
 
     body,
     html {
+        overflow-x: hidden;
         margin: 0;
         padding: 0;
         font-family: Arial, sans-serif;
@@ -239,9 +239,8 @@
         let score = 0;
         data = JSON.parse(data);
         data.Zones.forEach(Zone => {
-            if (Zone.WinningTeam == cookies.team)
-            {
-                score++;   
+            if (Zone.WinningTeam == cookies.team) {
+                score++;
             }
         });
         const score_final = Math.round((score * 100) / data.Zones.length);
@@ -279,7 +278,7 @@
 
         console.log(cookies.clientId)
         elem.style.display = "none"
-        
+
         page.style.position = "fixed";
         page.style.display = "flex";
         page.style.height = "100%";
@@ -287,7 +286,7 @@
         page.style.justifyContent = "center";
         page.style.alignItems = "center";
         page.style.flexDirection = "column";
-        
+
         page.style.top = 0;
         page.style.left = 0;
         page.style.height = "100%";
@@ -296,13 +295,11 @@
         text.style.fontSize = "xx-large";
         text.style.color = "white";
         text.textContent = cookies.login + " you clicked " + res.ClickCount + " times.";
-        if (cookies.team == data.WinningTeam && page != undefined && img != undefined)
-        {
+        if (cookies.team == data.WinningTeam && page != undefined && img != undefined) {
             img.src = "/images/win.svg"
             page.style.backgroundImage = "url('/images/background.svg')";
         }
-        else if (page != undefined && img != undefined)
-        {
+        else if (page != undefined && img != undefined) {
             img.src = "/images/loose.svg"
             page.style.backgroundImage = "url('/images/background_loose.svg')";
         }
@@ -496,6 +493,13 @@
                 }
                 else {
                     teamicon.src = "/images/team_b_portrait.svg"
+                }
+                const main = document.getElementById("mainmain")
+                if (data.team == 1) {
+                    main.style.backgroundColor = "#F8B3DD";
+                }
+                else {
+                    main.style.backgroundColor = "#FFBF3A";
                 }
             });
         window.addEventListener('resize', updateMapAreas);
