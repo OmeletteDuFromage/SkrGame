@@ -49,11 +49,12 @@ app.get('image', (req, res) => {
 app.post('/login', (req, res) => {
     const { login } = req.body;
 
+    console.log(login)
     team = getRandomInt(0, 1);
     clientId = generateUniqueId();
     res.cookie('team', team, { maxAge: 60000, httpOnly: true });
-    res.cookie('clientId', clientId, { maxAge: 900000, httpOnly: true });
-    res.cookie('login', login, { maxAge: 900000, httpOnly: true });
+    res.cookie('clientId', clientId, { maxAge: 60000, httpOnly: true });
+    res.cookie('login', login, { maxAge: 60000, httpOnly: true });
     
     let evt = `{
     "UserId": "${clientId}",
@@ -80,12 +81,12 @@ app.post('/button-click', (req, res) => {
     const clientId = req.cookies.clientId;
     const login = req.cookies.login;
 
+    console.log(buttonId, teamID, clientId, req.cookies.login)
     if (!teamID || !clientId || !login || !buttonId)
     {
         res.status(400).send('Missing required cookies');
         return;
     }
-
 
     let response = `{
   "UserId": "${clientId}",
@@ -93,6 +94,8 @@ app.post('/button-click', (req, res) => {
   "Team": ${teamID},
   "Zone": "${buttonId}"
 }`
+
+
 
     let data;
     try {

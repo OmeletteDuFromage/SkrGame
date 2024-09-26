@@ -138,24 +138,22 @@
     </form>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent the form from submitting the traditional way
-            const login = document.getElementById('login').value;
-
+        function removeNonAscii(str) {
+  return str.replace(/[\u0080-\uFFFF]/g, '');
+}
+function trimAndCut(str, maxLength) {
+  return str.trim().substring(0, maxLength);
+}
             function getFirst15ASCIIChars(str) {
-                // Convert string to array of characters
-                const charArray = Array.from(str);
-                
-                // Filter ASCII characters
-                const asciiChars = charArray.filter(char => char.charCodeAt(0) < 128);
-                
-                // Take first 15 characters
-                const result = asciiChars.slice(0, 15).join('');
-                
-                // Return empty string if less than 15 characters
-                return result.length < 15 ? '' : result;
+                str = removeNonAscii(str);
+                str = trimAndCut(str, 15);
+                return str;
             }
 
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the form from submitting the traditional way
+            login = document.getElementById('login').value;
+            login = getFirst15ASCIIChars(login);
             fetch('https://raw.githubusercontent.com/surge-ai/profanity/main/profanity_en.csv')
                 .then(response => response.text())
                 .then(data => {
@@ -173,6 +171,7 @@
                         textColumn.push("SpaceX");
                         textColumn.push("Airbus");
                         textColumn.push("Skr-technologies");
+                                
                         if (textColumn.includes(login)) {
                             alert("Please change your username.");
                             throw new Error('Cannot use banned word as username.');
