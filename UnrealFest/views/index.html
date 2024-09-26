@@ -142,6 +142,20 @@
             event.preventDefault(); // Prevent the form from submitting the traditional way
             const login = document.getElementById('login').value;
 
+            function getFirst15ASCIIChars(str) {
+                // Convert string to array of characters
+                const charArray = Array.from(str);
+                
+                // Filter ASCII characters
+                const asciiChars = charArray.filter(char => char.charCodeAt(0) < 128);
+                
+                // Take first 15 characters
+                const result = asciiChars.slice(0, 15).join('');
+                
+                // Return empty string if less than 15 characters
+                return result.length < 15 ? '' : result;
+            }
+
             fetch('https://raw.githubusercontent.com/surge-ai/profanity/main/profanity_en.csv')
                 .then(response => response.text())
                 .then(data => {
@@ -169,7 +183,7 @@
                                 headers: {
                                     'Content-Type': 'application/json'
                                 },
-                                body: JSON.stringify({ login: login })
+                                body: JSON.stringify({ login: getFirst15ASCIIChars(login) })
                             })
                                 .then(response => {
                                     if (!response.ok) {

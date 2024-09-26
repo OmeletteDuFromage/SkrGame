@@ -48,19 +48,16 @@ app.get('image', (req, res) => {
 
 app.post('/login', (req, res) => {
     const { login } = req.body;
+    
     team = getRandomInt(0, 1);
-    if (!req.cookies.team || req.cookies.team !== team) {
-        res.cookie('team', team, { maxAge: 900000, httpOnly: true });
-    }
-    if (!req.cookies.clientId) {
-        res.cookie('clientId', generateUniqueId(), { maxAge: 900000, httpOnly: true });
-    }
+    res.cookie('team', team, { maxAge: 60000, httpOnly: true });
+    res.cookie('clientId', generateUniqueId(), { maxAge: 900000, httpOnly: true });
     res.cookie('login', login, { maxAge: 900000, httpOnly: true });
     
     let evt = `{
     "UserId": "${req.cookies.clientId}",
-    "UserName": "${login}",
-    "Team": ${team}
+    "UserName": "${req.cookies.login}",
+    "Team": ${req.cookies.team}
 }`;
 let data;
 try {
@@ -69,7 +66,6 @@ try {
         console.error('Error parsing JSON:', error);
         return;
     }
-
 
     wss.emit('OnUserAdded', data);
     res.status(200).json({ message: 'Validation successful!' });
