@@ -44,7 +44,6 @@ app.get('/get-cookie', (req, res) => {
 });
 
 app.get('image', (req, res) => {
-    console.log(selectedImage);
 })
 
 app.post('/login', (req, res) => {
@@ -97,7 +96,6 @@ app.post('/button-click', (req, res) => {
   "Team": ${teamID},
   "Zone": "${buttonId}"
 }`
-    console.log(response);
 
     let data;
     try {
@@ -106,7 +104,6 @@ app.post('/button-click', (req, res) => {
         console.error('Error parsing JSON:', error);
         return;
     }
-    console.log(data);
     wss.emit('OnClick', data);
 
 
@@ -134,7 +131,6 @@ wss.on('connect', (socket) => {
     });
 
     socket.on('GameTerminated', () => {
-        console.log('GameTerminated');
         socket.broadcast.emit('OnGameTerminated');
     })
     
