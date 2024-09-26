@@ -239,7 +239,7 @@
         let score = 0;
         data = JSON.parse(data);
         console.log(data)
-        data.Zones.Zones.forEach(Zone => {
+        data.Zones.forEach(Zone => {
             if (Zone.WinningTeam === cookies.team)
             {
                 score++;   
