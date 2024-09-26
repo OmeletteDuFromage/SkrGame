@@ -91,12 +91,23 @@
 
     document.addEventListener('DOMContentLoaded', (event) => {
 
+        const img = document.getElementById("overlay");
+        if (window.orientation === 0 || window.orientation === 180) {
+            img.src = "images/rotate_screen.svg";
+        }
+        else {
+            if (team == 0) {
+                img.src = "/images/Frame 33.svg"
+            }
+            else {
+                img.src = "/images/Frame 32.svg"
+            }
+        }
     });
 
     window.addEventListener('load', () => {
         const img = document.getElementById("overlay");
 
-        // text.textContent = `Welcome, ${cookies.login}`;
         if (window.orientation === 0 || window.orientation === 180) {
             img.src = "images/rotate_screen.svg";
         }
