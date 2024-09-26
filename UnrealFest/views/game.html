@@ -253,31 +253,28 @@
         page = document.getElementById("end-page");
         img = document.getElementById("end-image");
         text = document.getElementById("text-end");
+        // try
+        // {
+        //     const message = JSON.parse(data);
+        //     console.log(message)
+        // }catch (error)
+        // {
+        //     if (page != undefined)
+        //     {
+        //         elem.style.display = "none"
+        //         page.style.position = "fixed";
+        //         page.style.display = "flex";
+        //         page.style.height = "100%";
+        //         page.style.width = "100%";
+        //         page.style.justifyContent = "center";
+        //         page.style.alignItems = "center";
+        //         page.style.flexDirection = "column";
+        //         page.style.backgroundImage = "url('/images/background.svg')";   
+        //     }
 
-        console.log(data);
-        try
-        {
-            const message = JSON.parse(data);
-            console.log(message)
-        }catch (error)
-        {
-            if (page != undefined)
-            {
-                elem.style.display = "none"
-                page.style.position = "fixed";
-                page.style.display = "flex";
-                page.style.height = "100%";
-                page.style.width = "100%";
-                page.style.justifyContent = "center";
-                page.style.alignItems = "center";
-                page.style.flexDirection = "column";
-                page.style.backgroundImage = "url('/images/background.svg')";   
-            }
-
-            return;
-        }
-        console.log("asdsad")
-        res = message.UsersScore.find(t => t.UserId == "257B20DC400328EB5CD978A6D423DEDC")
+        //     return;
+        // }
+        res = data.UsersScore.find(t => t.UserId == "257B20DC400328EB5CD978A6D423DEDC")
         elem.style.display = "none"
         
         page.style.position = "fixed";
@@ -296,7 +293,7 @@
         text.style.fontSize = "xx-large";
         text.style.color = "white";
         text.textContent = cookies.login + " you clicked " + res.ClickCount + " times.";
-        if (cookies.team == message.WinningTeam && page != undefined && img != undefined)
+        if (cookies.team == data.WinningTeam && page != undefined && img != undefined)
         {
             img.src = "/images/win.svg"
             page.style.backgroundImage = "url('/images/background.svg')";
