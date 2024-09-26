@@ -48,16 +48,17 @@ app.get('image', (req, res) => {
 
 app.post('/login', (req, res) => {
     const { login } = req.body;
-    
+
     team = getRandomInt(0, 1);
+    clientId = generateUniqueId();
     res.cookie('team', team, { maxAge: 60000, httpOnly: true });
-    res.cookie('clientId', generateUniqueId(), { maxAge: 900000, httpOnly: true });
+    res.cookie('clientId', clientId, { maxAge: 900000, httpOnly: true });
     res.cookie('login', login, { maxAge: 900000, httpOnly: true });
     
     let evt = `{
-    "UserId": "${req.cookies.clientId}",
-    "UserName": "${req.cookies.login}",
-    "Team": ${req.cookies.team}
+    "UserId": "${clientId}",
+    "UserName": "${login}",
+    "Team": ${team}
 }`;
 let data;
 try {
