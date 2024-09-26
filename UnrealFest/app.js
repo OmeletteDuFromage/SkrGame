@@ -48,8 +48,7 @@ app.get('image', (req, res) => {
 
 app.post('/login', (req, res) => {
     const { login } = req.body;
-
-    console.log(login)
+    
     team = getRandomInt(0, 1);
     clientId = generateUniqueId();
     res.cookie('team', team, { maxAge: 60000, httpOnly: true });

@@ -32,7 +32,7 @@
         </div>
         <img src="/images/text_rules.svg" alt="Top Left Image" class="top-left-image">
         <button id="bottom-right-button" class="bottom-right-button">
-            <img src="/images/switch_view.svg" alt="Button Image">
+            <img src="/images/switch_view.svg" alt="switch_view">
         </button>
     </div>
 </body>
@@ -226,9 +226,6 @@
 </style>
 
 </html>
-
-
-
 <script>
     const socket = io();
     let cookies;
@@ -252,31 +249,7 @@
         page = document.getElementById("end-page");
         img = document.getElementById("end-image");
         text = document.getElementById("text-end");
-        // try
-        // {
-        //     console.log(message)
-        // }catch (error)
-        // {
-        //     if (page != undefined)
-        //     {
-        //         elem.style.display = "none"
-        //         page.style.position = "fixed";
-        //         page.style.display = "flex";
-        //         page.style.height = "100%";
-        //         page.style.width = "100%";
-        //         page.style.justifyContent = "center";
-        //         page.style.alignItems = "center";
-        //         page.style.flexDirection = "column";
-        //         page.style.backgroundImage = "url('/images/background.svg')";   
-        //     }
-
-        //     return;
-        // }
-        console.log(data.UsersScore);
         res = data.UsersScore.find(t => t.UserId == cookies.clientId)
-        console.log(res)
-
-        console.log(cookies.clientId)
         elem.style.display = "none"
 
         page.style.position = "fixed";
@@ -321,17 +294,6 @@
         // Optionally, adjust the font size based on the percentage
         const fontSize = 30; // Example scaling
         svgText.setAttribute('font-size', fontSize);
-    }
-
-
-    function toggleFullscreen() {
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen().catch(err => {
-                alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-            });
-        } else {
-            document.exitFullscreen();
-        }
     }
 
     function checkOrientation() {
@@ -415,6 +377,7 @@
             mapElement.appendChild(areaElement);
         });
     }
+
 
     function zoneClicked(ZoneName) {
         console.log(ZoneName)
@@ -502,13 +465,28 @@
                 else {
                     main.style.backgroundColor = "#FFBF3A";
                 }
-                if (!document.fullscreenElement) {
-                    document.documentElement.requestFullscreen();
-                } else {
-                    document.exitFullscreen();
-                }
                 checkOrientation()
             });
+
+        // Allow click interactions
+        document.addEventListener('touchstart', function (e) {
+            if (e.target.tagName == 'AREA') {
+                zoneClicked(e.srcElement.alt);
+            }
+            if (e.srcElement.alt == "switch_view") {
+                console.log(e.srcElement.alt)
+                const image_plane = document.getElementById("image-plane");
+                if (image_plane.src.includes('side')) {
+                    image_plane.src = "/images/plane_top.svg";
+                }
+                else {
+                    image_plane.src = "/images/plane_side.svg";
+
+                }
+                updateMapAreas();
+            }
+            e.preventDefault();
+        }, { passive: false });
         window.addEventListener('resize', updateMapAreas);
         window.addEventListener('load', () => {
             const img = document.getElementById('image-plane');

@@ -78,7 +78,7 @@
             text.style.display = "none";
         }
         else {
-            
+
             text.style.display = "";
             if (team == 0) {
                 img.src = "/images/Frame 33.svg"
@@ -92,17 +92,38 @@
     document.addEventListener('DOMContentLoaded', (event) => {
 
         const img = document.getElementById("overlay");
-        if (window.orientation === 0 || window.orientation === 180) {
-            img.src = "images/rotate_screen.svg";
-        }
-        else {
-            if (team == 0) {
-                img.src = "/images/Frame 33.svg"
-            }
-            else {
-                img.src = "/images/Frame 32.svg"
-            }
-        }
+
+        fetch('/get-cookie')
+            .then(response => response.json())
+            .then(data => {
+
+                const text = document.getElementById("welcome-text");
+                cookies = data;
+                const teamicon = document.getElementById("overlay");
+                text.textContent = `Welcome ${cookies.login}`;
+                if (data.team == 0) {
+                    teamicon.src = "/images/Frame 33.svg"
+                }
+                else {
+                    teamicon.src = "/images/Frame 32.svg"
+                }
+            }).then(() => {
+                if (window.orientation === 0 || window.orientation === 180) {
+                    img.src = "images/rotate_screen.svg";
+                }
+                else {
+                    if (cookies.team == 0) {
+                        img.src = "/images/Frame 33.svg"
+                    }
+                    else {
+                        img.src = "/images/Frame 32.svg"
+                    }
+                }
+
+            });
+
+
+
     });
 
     window.addEventListener('load', () => {
@@ -120,25 +141,6 @@
             }
         }
     });
-
-    fetch('/get-cookie')
-        .then(response => response.json())
-        .then(data => {
-            
-        const text = document.getElementById("welcome-text");
-            cookies = data;
-            const teamicon = document.getElementById("overlay");
-            text.textContent = `Welcome ${cookies.login}`;
-            if (data.team) {
-                team = data.team;
-            }
-            if (data.team == 0) {
-                teamicon.src = "/images/Frame 33.svg"
-            }
-            else {
-                teamicon.src = "/images/Frame 32.svg"
-            }
-        });
 
 </script>
 
