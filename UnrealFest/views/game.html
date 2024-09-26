@@ -274,10 +274,10 @@
         //     return;
         // }
         console.log(data.UsersScore);
-        res = data.UsersScore.find(t => t.UserId == cookies.UserId)
+        res = data.UsersScore.find(t => t.UserId == cookies.clientId)
         console.log(res)
 
-        console.log(cookies.UserId)
+        console.log(cookies.clientId)
         elem.style.display = "none"
         
         page.style.position = "fixed";
