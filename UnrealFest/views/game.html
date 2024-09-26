@@ -253,8 +253,6 @@
         page = document.getElementById("end-page");
         img = document.getElementById("end-image");
         text = document.getElementById("text-end");
-
-        data = JSON.parse(data);
         // try
         // {
         //     console.log(message)
@@ -275,6 +273,7 @@
 
         //     return;
         // }
+        console.log(data.UsersScore);
         res = data.UsersScore.find(t => t.UserId == cookies.UserId)
         console.log(res)
 
