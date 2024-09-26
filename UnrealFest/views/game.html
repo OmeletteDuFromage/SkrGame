@@ -237,6 +237,7 @@
 
     socket.on('ScoreUpdated', (data) => {
         let score = 0;
+        console.log(data)
         data.Zones.forEach(Zone => {
             if (Zone.WinningTeam === cookies.team)
             {
