@@ -238,7 +238,6 @@
     socket.on('ScoreUpdated', (data) => {
         let score = 0;
         data = JSON.parse(data);
-        console.log(data)
         data.Zones.forEach(Zone => {
             if (Zone.WinningTeam == cookies.team)
             {
@@ -257,8 +256,8 @@
 
         try
         {
-            let jsonString = JSON.stringify(data);
-            const message = JSON.parse(jsonString);
+            const message = JSON.parse(data);
+            console.log(message)
         }catch (error)
         {
             if (page != undefined)
@@ -276,6 +275,7 @@
 
             return;
         }
+        console.log("asdsad")
         res = message.UsersScore.find(t => t.UserId == "257B20DC400328EB5CD978A6D423DEDC")
         elem.style.display = "none"
         
