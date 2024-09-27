@@ -470,7 +470,7 @@
                     teamicon.src = "/images/team_b_portrait.svg"
                 }
                 const main = document.getElementById("mainmain")
-                if (data.team == 1) {
+                if (data.team == 0) {
                     main.style.backgroundColor = "#FFBF3A";
                 }
                 else {
@@ -506,7 +506,7 @@
                 element.style.left = imageMapElement.getBoundingClientRect().left + titi.coords[0] + 'px';
                 element.style.top = imageMapElement.getBoundingClientRect().top + titi.coords[1] + 'px';
                 element.style.display = 'block';
-                element.style.backgroundColor = cookies.team == 0 ? "#FF26AC90" : "#FFB82590";
+                element.style.backgroundColor = cookies.team == 0 ? "#FFB82590" : "#FF26AC90";
                 // element.style.transform = `translate(-50%, -50%)`;
 
                 setTimeout(() => {
