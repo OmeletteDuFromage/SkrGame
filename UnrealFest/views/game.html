@@ -335,14 +335,14 @@
         }
         else {
             areas = [
-                { coords: [154, 159, 186, 217], alt: "Rocket Engine" },
+                { coords: [144, 160, 186, 217], alt: "Rocket Engine" },
                 { coords: [188, 106, 228, 270], alt: "Horizontal Tail Plane" },
                 { coords: [215, 145, 301, 189], alt: "Jet Engine Left" },
                 { coords: [214, 190, 301, 233], alt: "Jet Engine Right" },
                 { coords: [280, 38, 341, 167], alt: "Left Wing" },
                 { coords: [276, 213, 341, 343], alt: "Right Wing" },
                 { coords: [301, 168, 341, 210], alt: "Fuel Tank" },
-                { coords: [341, 168, 427, 218], alt: "Methan tank" },
+                { coords: [341, 160, 427, 218], alt: "Methan tank" },
                 { coords: [428, 159, 473, 218], alt: "Cabine" },
                 { coords: [474, 159, 500, 218], alt: "Cockpit" },
                 { coords: [499, 159, 542, 218], alt: "Nose" }
@@ -506,6 +506,7 @@
                 element.style.left = imageMapElement.getBoundingClientRect().left + titi.coords[0] + 'px';
                 element.style.top = imageMapElement.getBoundingClientRect().top + titi.coords[1] + 'px';
                 element.style.display = 'block';
+                element.style.backgroundColor = cookies.team == 0 ? "#FF26AC90" : "#FFB82590";
                 // element.style.transform = `translate(-50%, -50%)`;
 
                 setTimeout(() => {
