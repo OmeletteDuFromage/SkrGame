@@ -23,8 +23,11 @@ const options = {
     key: fs.readFileSync('/etc/letsencrypt/live/unrealfest2024.sky-real.com/privkey.pem')
   };
   
-const server = http.createServer(options, app);
-const wss = socketIO(server);
+const server = http.createServer( app);
+const wss = socketIO(server, {
+    pingInterval: 900000,
+    pingTimeout: 900000,
+});
 app.use(express.json());
 app.use(cookieParser());
 app.use('/images', express.static('public/images'))
