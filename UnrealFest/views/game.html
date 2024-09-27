@@ -39,14 +39,14 @@
     </div>
 </body>
 <style>
-        .spawned {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            background-color: rgba(128, 128, 128, 0.24);
-            border-radius: 50%;
-            display: none;
-        }
+    .spawned {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        background-color: rgba(128, 128, 128, 0.349);
+        border-radius: 10%;
+        display: none;
+    }
 
     #percentage-svg {
         position: absolute;
@@ -339,7 +339,7 @@
                 { coords: [188, 106, 228, 270], alt: "Horizontal Tail Plane" },
                 { coords: [215, 145, 301, 189], alt: "Jet Engine Left" },
                 { coords: [214, 190, 301, 233], alt: "Jet Engine Right" },
-                { coords: [280, 167, 341, 37], alt: "Left Wing" },
+                { coords: [280, 38, 341, 167], alt: "Left Wing" },
                 { coords: [276, 213, 341, 343], alt: "Right Wing" },
                 { coords: [301, 168, 341, 210], alt: "Fuel Tank" },
                 { coords: [341, 168, 427, 218], alt: "Methan tank" },
@@ -479,14 +479,34 @@
                 checkOrientation()
             });
 
+            function getRectangleCenter(xStart, yStart, xEnd, yEnd) {
+                const xCenter = (xStart + xEnd) / 2;
+                const yCenter = (yStart + yEnd) / 2;
+                return { xCenter, yCenter };
+            }
         // Allow click interactions
         document.addEventListener('touchstart', function (e) {
 
             if (e.target.tagName == 'AREA') {
+                areas = GetAreas();
+                titi = areas.find(t => t.alt.toString() == e.srcElement.alt.toString());
+                const imageMapElement = document.getElementById('image-plane');
+            
+
+                const originalWidth = 667;
+                 const originalHeight = 375;
+                const { scaleX, scaleY } = getScaleFactors(imageMapElement, originalWidth, originalHeight);
+                const scaledCoords = scaleCoords(titi.coords, scaleX, scaleY).join(',');
+
+                rect = getRectangleCenter(titi.coords[0], titi.coords[1], titi.coords[2], titi.coords[3])
+
                 const element = document.getElementById('spawnedElement');
-                element.style.left = e.touches[0].clientX - 40 + 'px';
-                element.style.top = e.touches[0].clientY - 40+ 'px';
+                element.style.width = titi.coords[2] - titi.coords[0] + 'px';
+                element.style.height = titi.coords[3] - titi.coords[1] + 'px';
+                element.style.left = imageMapElement.getBoundingClientRect().left + titi.coords[0] + 'px';
+                element.style.top = imageMapElement.getBoundingClientRect().top + titi.coords[1] + 'px';
                 element.style.display = 'block';
+                // element.style.transform = `translate(-50%, -50%)`;
 
                 setTimeout(() => {
                     element.style.display = 'none';
