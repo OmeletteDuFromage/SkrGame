@@ -56,9 +56,9 @@ app.post('/login', (req, res) => {
     
     team = getRandomInt(0, 1);
     clientId = generateUniqueId();
-    res.cookie('team', team, { maxAge: 60000, httpOnly: true });
-    res.cookie('clientId', clientId, { maxAge: 60000, httpOnly: true });
-    res.cookie('login', login, { maxAge: 60000, httpOnly: true });
+    res.cookie('team', team, { maxAge: 900000, httpOnly: true });
+    res.cookie('clientId', clientId, { maxAge: 900000, httpOnly: true });
+    res.cookie('login', login, { maxAge: 900000, httpOnly: true });
     
     let evt = `{
     "UserId": "${clientId}",
