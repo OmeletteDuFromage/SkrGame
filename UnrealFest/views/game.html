@@ -103,14 +103,14 @@
     }
 
     .fullscreen-image {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
         background-image: url('images/background.svg');
         background-size: contain;
-        background-repeat: no-repeat;
         background-position: center;
         z-index: 9999;
         display: none;
