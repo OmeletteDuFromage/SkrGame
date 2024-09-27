@@ -23,7 +23,7 @@ const options = {
     key: fs.readFileSync('/etc/letsencrypt/live/unrealfest2024.sky-real.com/privkey.pem')
   };
   
-const server = http.createServer( app);
+const server = http.createServer(options, app);
 const wss = socketIO(server, {
     pingInterval: 900000,
     pingTimeout: 900000,

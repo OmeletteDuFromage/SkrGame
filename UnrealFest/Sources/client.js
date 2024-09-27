@@ -2,7 +2,8 @@
 const socketIo = require('socket.io-client');
 // Define the WebSocket server URL
 // const serverUrl = 'ws://18.169.64.77:8080/'; // Replace with your server URL
-const serverUrl = 'http://localhost:8080/'; // Replace with your server URL
+const serverUrl = 'https://unrealfest2024.sky-real.com/'; // Replace with your server URL
+// const serverUrl = 'http://localhost:8080'; // Replace with your server URL
 
 // Define the JSON message
 const channel = 'UpdateScore';
