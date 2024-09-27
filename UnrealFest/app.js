@@ -18,7 +18,12 @@ WEBSERVER PART
 
 let i = 0;
 const app = express();
-const server = http.createServer(app);
+const options = {
+    cert: fs.readFileSync('/etc/letsencrypt/live/unrealfest2024.sky-real.com/fullchain.pem'),
+    key: fs.readFileSync('/etc/letsencrypt/live/unrealfest2024.sky-real.com/privkey.pem')
+  };
+  
+const server = http.createServer(option, app);
 const wss = socketIO(server);
 app.use(express.json());
 app.use(cookieParser());
