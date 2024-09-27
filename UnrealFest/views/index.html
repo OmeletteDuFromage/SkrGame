@@ -158,6 +158,8 @@ function trimAndCut(str, maxLength) {
                 .then(response => response.text())
                 .then(data => {
                     // Parse the CSV data
+                    login = login.trimEnd();
+                    login = login.trimStart();
                     const rows = data.split('\n');
                     const headers = rows[0].split(',');
                     const textIndex = headers.indexOf('text');
@@ -171,8 +173,7 @@ function trimAndCut(str, maxLength) {
                         textColumn.push("SpaceX");
                         textColumn.push("Airbus");
                         textColumn.push("Skr-technologies");
-                                
-                        if (textColumn.includes(login)) {
+                        if (textColumn.includes(login) || login == '') {
                             alert("Please change your username.");
                             throw new Error('Cannot use banned word as username.');
                         } else {
